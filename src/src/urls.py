@@ -24,6 +24,7 @@ urlpatterns = [
     path('appointments/', include('appointments.urls')),
     path('records/', include('records.urls')),
     path('records/', include('records.urls')),
+    #comments to commit
 
 
 ]
