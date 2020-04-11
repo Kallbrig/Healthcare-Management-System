@@ -3,15 +3,19 @@
 {% block content %}
 
 
-    <div class="card card-primary p-5">
+    {# Reference views.py for explanation #}
 
+    <div class="card card-primary p-4">
 
+        <div class="card-header mb-2"><h2>Report List</h2></div>
         <ul class="list-group">
-            {% for report in reports %}
-            <a href="#" class="list-group-item list-group-item-action">{{ report.doctor_name }}<span class="badge badge-primary badge-pill float-right">{{ report.patients_seen }}</span></a>
+            {% for object in object_list %}
+                {% if object.report_set.count > 0 %}
+                    <a href="#" class="list-group-item list-group-item-action">{{ object.get_full_name }}<span
+                            class="badge badge-primary badge-pill float-right">{{ object.report_set.count }}</span></a>
+                {% endif %}
+
             {% endfor %}
-
-
 
 
         </ul>

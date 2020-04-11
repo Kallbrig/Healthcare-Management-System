@@ -30,6 +30,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
+    'reports.apps.ReportsConfig',
 
     'crispy_forms',
 
@@ -57,7 +58,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            'templates/'
+            'src/templates/'
         ],
         'APP_DIRS': True,
         'OPTIONS': {
