@@ -21,9 +21,9 @@ from . import views as reports_views
 urlpatterns = [
     # path('reports_list/', auth_views.LoginView.as_view(template_name='accounts/login.html'), name='login'),
     path('', reports_views.ReportListView.as_view(), name='report-list'),
-    path('report/', reports_views.ReportDetailView.as_view(), name='report'),
+    path('report/<int:pk>/', reports_views.ReportDetailView.as_view(), name='report'),
 
-    # path('logout/', auth_views.LogoutView.as_view(template_name='accounts/logout.html'), name='logout'),
-    # path('profile/', account_views.profile, name='profile'),
+
+
 
 ]

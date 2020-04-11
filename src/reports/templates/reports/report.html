@@ -1,31 +1,43 @@
-{% extends "templates/base.html" %}
+{% extends "base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
 
-<div class="card card-light shadow-sm p-4" style="max-height: 50rem;">
+    <div class="card card-light shadow-sm p-2" style="max-height: 50rem;">
 
-    <div class="media">
-        <img class="align-self-start mr-3 rounded-circle" src="{{ report.doctor }}{{ report.patients_seen}}"
-             style="max-height: 15%; max-width: 15%;"
-             alt="profile picture">
-        <div class="media-body">
-            <h5 class="mt-0">@{{ report.end_date }}</h5>
-            <p>{{ report.start_date }}</p>
+
+        <div class="card-header">
+            <div class="row ml-1">
+                <h1>Report - {{ report.user.get_full_name }}</h1>
+            </div>
+            <div class="row ml-1">
+                <p>{{ report.start_date|date:"F d" }} - {{ report.start_date|date:"F d, Y" }}</p>
+            </div>
+        </div>
+
+
+        <div class="card-body m-0">
+            <ul class="list-group">
+
+                <div class="float-right list-group-item">
+                    <p class="font-weight-bold float-left p-0 m-0">Patients Seen</p>
+                    <p class="font-weight-bold float-right p-0 m-0">{{ report.patients_seen }}</p>
+                </div>
+
+                <div class="float-right list-group-item">
+                    <p class="font-weight-bold float-left p-0 m-0">Health Service Income</p>
+                    <p class="font-weight-bold float-right p-0 m-0">${{ report.health_service_income }}</p>
+                </div>
+
+
+
+
+            </ul>
+
+
         </div>
     </div>
 
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        <fieldset class="form-group">
-            <legend class=" card-light mb-4">Update Profile</legend>
-{#            {{ u_form|crispy }}#}
-{#            {{ p_form|crispy }}#}
-        </fieldset>
-        <div class="form-group">
-            <button class=" btn btn-secondary float-right" type="submit">Update</button>
-        </div>
-    </form>
 
-</div>
+    </div>
 
 {% endblock content %}

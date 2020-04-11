@@ -44,3 +44,4 @@ class ReportDetailView(DetailView):
     model = Report
     template_name = 'reports/report.html'
     context_object_name = 'report'
+
