@@ -40,6 +40,10 @@ class ReportListView(ListView):
     paginate_by = 15
 
 
+
+
+
+
 class ReportDetailView(DetailView):
     model = Report
     template_name = 'reports/report.html'
