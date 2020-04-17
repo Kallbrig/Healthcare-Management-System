@@ -15,12 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-
+from django.contrib import admin
+from django.urls import path, include
+from django.contrib.auth import views as auth_views
+from . import views as reports_views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('accounts/', include('accounts.urls')),
-    path('records/', include('records.urls'))
+    path('', reports_views.ReportUserList.as_view(), name='Record-User-List'),
+    path('<int:pk>/', reports_views.Record.as_view(),name='Record'),
 
 
 ]
