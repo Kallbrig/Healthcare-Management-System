@@ -22,7 +22,7 @@ from . import views as reports_views
 
 urlpatterns = [
     path('', reports_views.ReportUserList.as_view(), name='Record-User-List'),
-    path('<int:pk>/', reports_views.Record.as_view(),name='Record'),
+    path('<int:pk>/', reports_views.Records.as_view(),name='Record'),
 
 
 ]
