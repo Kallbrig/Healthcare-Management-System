@@ -12,7 +12,7 @@
                 <div id="acordian">
                     <div class="card">
 
-                        <button id=""  class="card-header btn btn-link" data-toggle="collapse"
+                        <button id=""  class="card-header btn btn-link collapsed" data-toggle="collapse"
                                 data-target="#{{ object.username }}"
                                 aria-expanded="false" aria-controls="{{ object.username }}">
 
@@ -22,7 +22,7 @@
                         </button>
 
 
-                        <div id="{{ object.username }}"  class="card-body" >
+                        <div id="{{ object.username }}"  class="card-body collapse" >
                             {% for report in object.report_set.all %}
 
                                 <ul id="" class="list-group">
