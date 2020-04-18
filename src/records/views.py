@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, UpdateView
 from django.contrib.auth.models import User
+from .models import Record
 
 
 # Create your views here.
@@ -13,7 +14,7 @@ class ReportUserList(ListView):
     paginate_by = 25
 
 
-class Record(DetailView):
-    model = User
+class Records(DetailView):
+    model = Record
     template_name = 'record.html'
     context_object_name = 'record'

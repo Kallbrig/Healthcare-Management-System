@@ -7,10 +7,11 @@
 
         <div class="card-header">
             <div class="row ml-1">
-                <h1>Report - {{ report.user.get_full_name }}</h1>
+                <h1>Record - {{ record.patient.get_full_name }} </h1>
             </div>
             <div class="row ml-1">
-                <p>{{ report.start_date|date:"F d" }} - {{ report.start_date|date:"F d, Y" }}</p>
+                <p>Doctor - {{ record.doctor.get_full_name }}</p>
+
             </div>
         </div>
 {# commit tyrone. #}
@@ -19,17 +20,56 @@
             <ul class="list-group">
 
                 <div class="float-right list-group-item">
-                    <p class="font-weight-bold float-left p-0 m-0">Patients Seen</p>
-                    <p class="font-weight-bold float-right p-0 m-0">{{ report.patients_seen }}</p>
+                    <p class="font-weight-bold float-left p-0 m-0">Appointment</p>
+                    <p class="font-weight-bold float-right p-0 m-0">{{ record.appointment_date }}
+                        @ {{ record.appointment_time }}</p>
                 </div>
 
                 <div class="float-right list-group-item">
-                    <p class="font-weight-bold float-left p-0 m-0">Health Service Income</p>
-                    <p class="font-weight-bold float-right p-0 m-0">${{ report.health_service_income }}</p>
+                    <p class="font-weight-bold float-left p-0 m-0">Reason for visit</p>
+                    <p class="font-weight-bold float-right p-0 m-0">{{ record.reason_for_visit }}</p>
+                </div>
+
+                <div class="float-right list-group-item">
+                    <p class="font-weight-bold float-left p-0 m-0">Height</p>
+                    <p class="font-weight-bold float-right p-0 m-0">{{ record.height_feet }}
+                        ft {{ record.height_inches }} in</p>
+                </div>
+
+                <div class="float-right list-group-item">
+                    <p class="font-weight-bold float-left p-0 m-0">Weight</p>
+                    <p class="font-weight-bold float-right p-0 m-0">{{ record.weight_lbs }}</p>
                 </div>
 
 
+                <div class="float-right list-group-item">
+                    <p class="font-weight-bold float-left p-0 m-0">Blood Pressure</p>
+                    <p class="font-weight-bold float-right p-0 m-0">{{ record.blood_pressure }}</p>
+                </div>
 
+                <div class="float-right list-group-item">
+                    <p class="font-weight-bold float-left p-0 m-0">Pulse</p>
+                    <p class="font-weight-bold float-right p-0 m-0">{{ record.pulse }}</p>
+                </div>
+
+
+                {# Shows None if none are entered #}
+                {% if record.prescription.count > 0 %}
+                    <div class="float-right list-group-item">
+                        <p class="font-weight-bold float-left p-0 m-0">Prescriptions</p>
+                        <p class="font-weight-bold float-right p-0 m-0">{{ record.prescriptions }}</p>
+                    </div>
+                {% else %}
+                    <div class="float-right list-group-item">
+                        <p class="font-weight-bold float-left p-0 m-0">Prescriptions</p>
+                        <p class="font-weight-bold float-right p-0 m-0">None</p>
+                    </div>
+                {% endif %}
+
+                <div class="float-right list-group-item">
+                    <p class="font-weight-bold float-left p-0 m-0">Treatment</p>
+                    <p class="font-weight-bold float-right p-0 m-0">{{ record.treatment }}</p>
+                </div>
 
             </ul>
 
