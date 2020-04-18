@@ -7,7 +7,7 @@ from .models import Record
 # Create your views here.
 
 
-class ReportUserList(ListView):
+class RecordUserList(ListView):
     template_name = 'records_list.html'
     model = User
     ordering = ['-last_name']
@@ -18,3 +18,6 @@ class Records(DetailView):
     model = Record
     template_name = 'record.html'
     context_object_name = 'record'
+
+def new_patient(request):
+	return render(request, 'new_patient.html', {'title': 'New-patient'})

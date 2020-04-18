@@ -4,40 +4,39 @@
     {# This Needs Serious Work#}
 
 
-    <div class="card p-4 float">
-        <div class="card-header mb-3"><h3>Reports</h3></div>
-        {% for object in object_list %}
-            {% if object %}
+    {% if user.is_authenticated %}
+        <p>Welcome, {{ user.get_username }}. Here are all patient records.</p>
+        {% endif %}
 
-                <div id="acordian">
-                    <div class="card">
+    <a href="#" class="btn btn-dark" style="margin-bottom: 25px"> + New Patient</a>
 
-                        <button id=""  class="card-header btn btn-link" data-toggle="collapse"
-                                data-target="#{{ object.username }}"
-                                aria-expanded="false" aria-controls="{{ object.username }}">
+                <div class=" justify-content-center">
+                    <table style="margin-left: 25%" class="table table-dark table-striped table-bordered table-hover">
+                        <tr>
+                            <th scope="col">Patient ID</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Address</th>
+                            <th scope="col">Phone number</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">SSN</th>
+                            <th scope="col">Insurance</th>
+                        </tr>
+                            {% for object in object_list %}
+                                {% if object %}
+                        <tr>
+                            <th scope="row">{{object.pk}} </th>
+                            <td>{{ object.get_full_name }}</td>
+                            <td>{{ object.get_address }}</td>
+                            <td>{{ object.get_phone }}</td>
+                            <td>{{ object.email }}</td>
+                            <td>{{ object.ssn }}</td>
+                            <td>{{ object.insurance }}</td>
+                        </tr>
+                                {% endif %}
+                             {% endfor %}
 
-                            <p class="float-left">{{ object.get_full_name }}</p>
-                            <span class="badge badge-primary badge-pill float-right">{{ object.username }}</span>
-
-                        </button>
-<!-- A commit -->
-                        <h1>Hello test</h1>
-
-                        <div id="{{ object.username }}"  class="card-body" >
-                            {% for report in object.report_set.all %}
-
-                                <ul id="" class="list-group">
-                                    <a id="{% url 'report' report.id %}" href="{{ report.id }}" class="list-group-item list-group-item-action">{{ report }}</a>
-                                </ul>
-
-                            {% endfor %}
-                        </div>
-
-
-                    </div>
+                    </table>
                 </div>
-            {% endif %}
-        {% endfor %}
-    </div>
+
 
 {% endblock content %}

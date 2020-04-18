@@ -2,7 +2,7 @@
 {% load crispy_forms_tags %}
 {% block content %}
 
-    <div class="card card-light shadow-sm p-2" style="max-height: 50rem;">
+     <div class="card card-light shadow-sm p-2" style="max-height: 50rem;">
 
 
         <div class="card-header">
@@ -14,7 +14,6 @@
 
             </div>
         </div>
-{# commit tyrone. #}
 
         <div class="card-body m-0">
             <ul class="list-group">
@@ -41,7 +40,6 @@
                     <p class="font-weight-bold float-right p-0 m-0">{{ record.weight_lbs }}</p>
                 </div>
 
-
                 <div class="float-right list-group-item">
                     <p class="font-weight-bold float-left p-0 m-0">Blood Pressure</p>
                     <p class="font-weight-bold float-right p-0 m-0">{{ record.blood_pressure }}</p>
@@ -51,7 +49,6 @@
                     <p class="font-weight-bold float-left p-0 m-0">Pulse</p>
                     <p class="font-weight-bold float-right p-0 m-0">{{ record.pulse }}</p>
                 </div>
-
 
                 {# Shows None if none are entered #}
                 {% if record.prescription.count > 0 %}
@@ -78,6 +75,7 @@
     </div>
 
 
-    </div>
+ </div>
+
 
 {% endblock content %}

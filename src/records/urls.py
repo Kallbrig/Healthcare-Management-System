@@ -18,11 +18,11 @@ from django.urls import path, include
 from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
-from . import views as reports_views
+from . import views as records_views
 
 urlpatterns = [
-    path('', reports_views.ReportUserList.as_view(), name='Record-User-List'),
-    path('<int:pk>/', reports_views.Records.as_view(),name='Record'),
-
+    path('', records_views.RecordUserList.as_view(), name='Record-User-List'),
+    path('<int:pk>/', records_views.Records.as_view(),name='Record'),
+    path('new_patient/', records_views.new_patient, name='new_patient'),
 
 ]
