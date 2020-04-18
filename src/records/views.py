@@ -21,3 +21,7 @@ class Records(DetailView):
 
 def new_patient(request):
 	return render(request, 'new_patient.html', {'title': 'New-patient'})
+
+
+def new_record(request):
+	return render(request, 'new_record.html', {'title': 'New-record'})

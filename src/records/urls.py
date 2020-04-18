@@ -24,5 +24,6 @@ urlpatterns = [
     path('', records_views.RecordUserList.as_view(), name='Record-User-List'),
     path('<int:pk>/', records_views.Records.as_view(),name='Record'),
     path('new_patient/', records_views.new_patient, name='new_patient'),
+     path('new_record/', records_views.new_record, name='new_record'),
 
 ]
