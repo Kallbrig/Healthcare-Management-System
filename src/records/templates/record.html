@@ -4,15 +4,17 @@
 
     <a href="new_record" class="btn btn-dark" style="margin-bottom: 25px"> + New Record</a>
 
+    {% for object in object_list %}
+        {% if object %}
      <div class="card card-light shadow-sm p-2" style="max-height: 50rem;">
 
 
         <div class="card-header">
             <div class="row ml-1">
-                <h1>Record - {{ record.patient.get_full_name }} </h1>
+                <h1>Record - {{ object.patient.get_full_name }} </h1>
             </div>
             <div class="row ml-1">
-                <p>Doctor - {{ record.doctor.get_full_name }}</p>
+                <p>Doctor - {{ object.doctor.get_full_name }}</p>
 
             </div>
         </div>
@@ -22,41 +24,41 @@
 
                 <div class="float-right list-group-item">
                     <p class="font-weight-bold float-left p-0 m-0">Appointment</p>
-                    <p class="font-weight-bold float-right p-0 m-0">{{ record.appointment_date }}
-                        @ {{ record.appointment_time }}</p>
+                    <p class="font-weight-bold float-right p-0 m-0">{{ object.appointment_date }}
+                        @ {{ object.appointment_time }}</p>
                 </div>
 
                 <div class="float-right list-group-item">
                     <p class="font-weight-bold float-left p-0 m-0">Reason for visit</p>
-                    <p class="font-weight-bold float-right p-0 m-0">{{ record.reason_for_visit }}</p>
+                    <p class="font-weight-bold float-right p-0 m-0">{{ object.reason_for_visit }}</p>
                 </div>
 
                 <div class="float-right list-group-item">
                     <p class="font-weight-bold float-left p-0 m-0">Height</p>
-                    <p class="font-weight-bold float-right p-0 m-0">{{ record.height_feet }}
-                        ft {{ record.height_inches }} in</p>
+                    <p class="font-weight-bold float-right p-0 m-0">{{ object.height_feet }}
+                        ft {{ object.height_inches }} in</p>
                 </div>
 
                 <div class="float-right list-group-item">
                     <p class="font-weight-bold float-left p-0 m-0">Weight</p>
-                    <p class="font-weight-bold float-right p-0 m-0">{{ record.weight_lbs }}</p>
+                    <p class="font-weight-bold float-right p-0 m-0">{{ object.weight_lbs }}</p>
                 </div>
 
                 <div class="float-right list-group-item">
                     <p class="font-weight-bold float-left p-0 m-0">Blood Pressure</p>
-                    <p class="font-weight-bold float-right p-0 m-0">{{ record.blood_pressure }}</p>
+                    <p class="font-weight-bold float-right p-0 m-0">{{ object.blood_pressure }}</p>
                 </div>
 
                 <div class="float-right list-group-item">
                     <p class="font-weight-bold float-left p-0 m-0">Pulse</p>
-                    <p class="font-weight-bold float-right p-0 m-0">{{ record.pulse }}</p>
+                    <p class="font-weight-bold float-right p-0 m-0">{{ object.pulse }}</p>
                 </div>
 
                 {# Shows None if none are entered #}
-                {% if record.prescription.count > 0 %}
+                {% if object.prescription.count > 0 %}
                     <div class="float-right list-group-item">
                         <p class="font-weight-bold float-left p-0 m-0">Prescriptions</p>
-                        <p class="font-weight-bold float-right p-0 m-0">{{ record.prescriptions }}</p>
+                        <p class="font-weight-bold float-right p-0 m-0">{{ object.prescriptions }}</p>
                     </div>
                 {% else %}
                     <div class="float-right list-group-item">
@@ -67,7 +69,7 @@
 
                 <div class="float-right list-group-item">
                     <p class="font-weight-bold float-left p-0 m-0">Treatment</p>
-                    <p class="font-weight-bold float-right p-0 m-0">{{ record.treatment }}</p>
+                    <p class="font-weight-bold float-right p-0 m-0">{{ object.treatment }}</p>
                 </div>
 
             </ul>
@@ -78,6 +80,8 @@
 
 
  </div>
+        {% endif %}
+    {% endfor %}
 
 
 {% endblock content %}

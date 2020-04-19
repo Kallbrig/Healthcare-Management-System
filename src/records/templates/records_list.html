@@ -23,8 +23,8 @@
                         </tr>
                             {% for object in object_list %}
                                 {% if object %}
-                        <tr>
-                            <th scope="row">{{object.pk}} </th>
+                        <tr onclick="document.location = '{% url "Record" object.pk %}';" >
+                            <th scope="row" >  {{object.pk}} </th>
                             <td>{{ object.get_full_name }}</td>
                             <td>{{ object.get_address }}</td>
                             <td>{{ object.get_phone }}</td>
