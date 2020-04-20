@@ -1,7 +1,8 @@
 from django import forms
-from accounts.models import Patient 
+from records.models import Record
 
 
-class newRecordForm(forms.ModelForm):
+class NewRecordForm(forms.ModelForm):
 	class Meta:
-		fields = ['patientAddress', 'patientPhone', 'PatientSSN', 'PatientInsurance']
+		fields = ['doctor','appointment_date', 'appointment_time', 'weight_lbs', 'height_feet', 'height_inches', 'blood_pressure', 'pulse', 'reason_for_visit', 'prescription', 'treatment']
+		model = Record

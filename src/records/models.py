@@ -4,6 +4,7 @@ from django.contrib.auth.models import User, Group
 from django.urls import reverse
 import django
 
+
 from django.template.defaultfilters import slugify
 from django.utils import timezone
 
