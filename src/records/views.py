@@ -49,7 +49,7 @@ def new_patient(request):
 def new_record(request,pk):
     if request.POST:
         form = NewRecordForm(request.POST)
-        if form.is_valid(): #For more security might wanna add validation so you can't manually(through html) assign nondoctor users to doctor
+        if form.is_valid(): #For more security might wanna add valiation so you can't manually(through html) assign nondoctor users to doctor
             instance = form.save(commit=False)
             instance.patient_id = pk
             instance.save()
