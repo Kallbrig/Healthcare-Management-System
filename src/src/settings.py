@@ -30,6 +30,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
+    'payments.apps.PaymentsConfig',
 
     'crispy_forms',
 
