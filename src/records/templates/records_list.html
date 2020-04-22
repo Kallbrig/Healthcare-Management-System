@@ -6,9 +6,7 @@
 
     {% if user.is_authenticated %}
         <p>Welcome, {{ user.get_username }}. Here are all patient records.</p>
-        {% endif %}
 
-    <a href="new_patient" class="btn btn-dark" style="margin-bottom: 25px"> + New Patient</a>
 
                 <div class=" justify-content-center">
                     <table style="margin-left: 25%" class="table table-dark table-striped table-bordered table-hover">
@@ -37,6 +35,8 @@
 
                     </table>
                 </div>
-
+        {% else %}
+        <h1>Please login.</h1>
+    {% endif %}
 
 {% endblock content %}

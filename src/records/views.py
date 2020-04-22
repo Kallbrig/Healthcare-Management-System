@@ -60,3 +60,19 @@ def new_record(request,pk):
         form.fields['doctor'].queryset = User.objects.filter(
             groups__name='Doctor')
     return render(request, 'new_record.html', {'title': 'New-record', "new_record_form":form})
+
+
+def edit_record(request, id):
+    record = Record.objects.all().get(id=id)
+    if request.POST:
+        form = NewRecordForm(request.POST, instance = record)
+        if form.is_valid():  # For more security might wanna add valiation so you can't manually(through html) assign nondoctor users to doctor
+            form.save()
+            messages.success(request, f'Record has been edited.')
+            return redirect('Record', pk=record.patient_id)
+    else:
+        form = NewRecordForm(instance=record)
+        form.fields['doctor'].queryset = User.objects.filter(
+            groups__name='Doctor')
+
+    return render(request, 'edit_record.html', {"form": form}) #can reuse the 'new_record.html' if you think it's going to be cleaner

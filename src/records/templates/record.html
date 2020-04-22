@@ -6,7 +6,7 @@
 
     {% for object in object_list %}
         {% if object %}
-     <div class="card card-light shadow-sm p-2" style="max-height: 50rem;">
+     <div class="card card-light shadow-sm p-2" >
 
 
         <div class="card-header">
@@ -17,6 +17,7 @@
                 <p>Doctor - {{ object.doctor.get_full_name }}</p>
 
             </div>
+             <a href="{% url "edit_record" object.id %}" class="btn btn-dark" style="margin-bottom: 25px"> Edit </a>
         </div>
 
         <div class="card-body m-0">
@@ -55,21 +56,21 @@
                 </div>
 
                 {# Shows None if none are entered #}
-                {% if object.prescription.count > 0 %}
+                {% if object.prescription|length > 0 %}
                     <div class="float-right list-group-item">
-                        <p class="font-weight-bold float-left p-0 m-0">Prescriptions</p>
-                        <p class="font-weight-bold float-right p-0 m-0">{{ object.prescriptions }}</p>
+                        <p class="font-weight-bold p-0 m-0">Prescriptions:</p>
+                        <p class="font-weight-bold p-0 m-0">{{ object.prescription }}</p>
                     </div>
                 {% else %}
                     <div class="float-right list-group-item">
-                        <p class="font-weight-bold float-left p-0 m-0">Prescriptions</p>
+                        <p class="font-weight-bold float-left p-0 m-0">Prescriptions:</p>
                         <p class="font-weight-bold float-right p-0 m-0">None</p>
                     </div>
                 {% endif %}
 
                 <div class="float-right list-group-item">
-                    <p class="font-weight-bold float-left p-0 m-0">Treatment</p>
-                    <p class="font-weight-bold float-right p-0 m-0">{{ object.treatment }}</p>
+                    <p class="font-weight-bold  p-0 m-0">Treatment:</p>
+                    <p class="font-weight-bold  p-0 m-0">{{ object.treatment }}</p>
                 </div>
 
             </ul>
