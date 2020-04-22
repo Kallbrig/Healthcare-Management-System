@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load crispy_forms_tags %}
 {% block content %}
 
 	<h1 style="text-align: center;">New Patient Entry</h1>
@@ -9,36 +9,15 @@
 	{% endif %}
 
 
-<form class=".form-horizontal bg-dark text-light border-dark" style="margin: 25px; padding: 25px; padding-top: 60px">
-	<div class="form-group">
-	  <label for="fname" class=".control-label col-sm-3">First name:</label>
-	  <input type="text" id="fname" name="fname"><br>
-	</div>
-	<div class="form-group">
-	  <label for="lname" class=".control-label col-sm-3">Last name:</label>
-	  <input type="text" id="lname" name="lname"><br>
-	</div>
-	<div class="form-group">
-	  <label for="address" class=".control-label col-sm-3">Address:</label>
-	  <input type="text" id="address" name="address"><br>
-	</div>
-	<div class="form-group">
-	  <label for="number" class=".control-label col-sm-3">Phone number:</label>
-	  <input type="text" id="number" name="number"><br>
-	</div>
-	<div class="form-group">
-	  <label for="email" class=".control-label col-sm-3">Email:</label>
-	  <input type="text" id="email" name="email"><br>
-	</div>
-	<div class="form-group">
-	  <label for="ssn" class=".control-label col-sm-3">SSN:</label>
-	  <input type="text" id="ssn" name="ssn"><br>
-	</div>
-	<div class="form-group">
-	  <label for="insurance" class=".control-label col-sm-3">Insurance:</label>
-	  <input type="text" id="insurance" name="insurance"><br>
-	</div>
-	   <input type="submit" value="Submit" style="margin-top: 15px; margin-left: 90%">
-</form>
+	<form method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+		<fieldset class="form-group">
+			<legend class="border-bottom mb-4">New Patient</legend>
+			{{ new_patient_form|crispy }}
+		</fieldset>
+		<div class="form-group">
+			<button class="btn btn-outline-info" type="submit">Add Patient</button>
+		</div>
+	</form>
 
 {% endblock content %}

@@ -23,7 +23,7 @@
 {#                    <a href="{% url 'post-create' %}" class="nav-item nav-link">Create Post</a>#}
                 {% endif %}
             </div>
-
+            {% block navbar-additions %}{% endblock %}
             <!--Right Aligned-->
             <div class="navbar-nav ml-auto">
                 {% if user.is_authenticated %}
