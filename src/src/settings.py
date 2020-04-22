@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'records.apps.RecordsConfig',
+    'portals.apps.PortalsConfig',
 
     'crispy_forms',
 
