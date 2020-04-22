@@ -11,6 +11,7 @@ class Invoice(models.Model):
     invoice_number = models.IntegerField()
     amount_owed = models.IntegerField()
     amount_billed = models.IntegerField()
+    date_billed = models.DateField()
 
     def __str__(self):
         return str(self.invoice_number) + " - " + str(self.amount_billed)
