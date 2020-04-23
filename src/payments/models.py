@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.admin.utils import timezone
 
 
 # When records and payments are merged, we may want to integrate a record to an invoice so they're linked.
@@ -7,11 +8,11 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 class Invoice(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    patient = models.ForeignKey(User, on_delete=models.CASCADE)
     invoice_number = models.IntegerField()
     amount_owed = models.IntegerField()
     amount_billed = models.IntegerField()
-    date_billed = models.DateField()
+    date_billed = models.DateField(default=timezone.now)
 
     def __str__(self):
         return str(self.invoice_number) + " - " + str(self.amount_billed)

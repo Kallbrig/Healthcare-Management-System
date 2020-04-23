@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -25,7 +25,7 @@ class InvoiceList(ListView):
 
 
 class InvoiceDetailView(DetailView):
-    model = Payment
+    model = Invoice
     template_name = 'view_invoice.html'
 
 

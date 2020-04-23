@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+
+    <div class="card p-4 float">
+        <div class="card-header mb-3"><h3>Invoices - {{ user.get_full_name }}</h3></div>
+        {% for invoice in user.invoice_set.all %}
+
+            <div id="acordian">
+                <div class="card">
+
+                    <a id="" class="card-header btn btn-link collapsed" data-toggle="collapse"
+                            data-target="#{{ invoice.invoice_number }}"
+                            aria-expanded="false" aria-controls="{{ object.invoice_number }}" href="{% url 'invoice-detail-view' pk=invoice.pk %}" >
+
+                        <p class="float-left">{{ invoice.date_billed }}</p>
+                        <span class="badge badge-primary badge-pill float-right">${{ invoice.amount_owed }}</span>
+
+                    </a>
+
+            {# These are copied over from reports. left them here in case they were helpful#}
+{#                    <div id="{{ object.username }}" class="card-body collapse">#}
+{#                        {% for report in object.report_set.all %}#}
+{##}
+{#                            <ul id="" class="list-group">#}
+{#                                <a id="{% url 'report' report.id %}" href="{{ report.id }}"#}
+{#                                   class="list-group-item list-group-item-action">{{ report }}</a>#}
+{#                            </ul>#}
+{##}
+{#                        {% endfor %}#}
+{#                    </div>#}
+
+
+                </div>
+            </div>
+
+        {% endfor %}
+    </div>
+
+{% endblock content %}

@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+    <div class="card card-light shadow-sm p-2" style="max-height: 50rem;">
+
+
+        <div class="card-header">
+            <div class="row ml-1">
+                <h1>Invoice - {{ object.patient.get_full_name }}</h1>
+            </div>
+            <div class="row ml-1">
+                <p>Issued - {{ object.date_billed|date:"F d, Y" }}</p>
+            </div>
+        </div>
+
+
+        <div class="card-body m-0">
+            <ul class="list-group">
+
+                <div class="float-right list-group-item">
+                    <p class="font-weight-bold float-left p-0 m-0">Patient Name</p>
+                    <p class="font-weight-bold float-right p-0 m-0">{{ object.patient.get_full_name }}</p>
+                </div>
+
+                <div class="float-right list-group-item">
+                    <p class="font-weight-bold float-left p-0 m-0">Invoice Number</p>
+                    <p class="font-weight-bold float-right p-0 m-0">{{ object.invoice_number }}</p>
+                </div>
+
+                <div class="float-right list-group-item">
+                    <p class="font-weight-bold float-left p-0 m-0">Amount Billed</p>
+                    <p class="font-weight-bold float-right p-0 m-0">${{ object.amount_billed }}</p>
+                </div>
+
+                <div class="float-right list-group-item">
+                    <p class="font-weight-bold float-left p-0 m-0">Amount Owed</p>
+                    <p class="font-weight-bold float-right p-0 m-0">${{ object.amount_owed }}</p>
+                </div>
+
+
+            </ul>
+
+
+        </div>
+    </div>
+
+
+    </div>
+
+{% endblock content %}
