@@ -17,7 +17,5 @@ class Patient(models.Model):
 	patientPhone = models.IntegerField()
 	patientSSN = models.IntegerField()
 	patientInsurance = models.CharField(max_length =50)
-    #doctor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='Doc')
-
-def __str__ (self):
-	return self.patient.get_full_name
+	def __str__ (self):
+		return self.patient.get_full_name

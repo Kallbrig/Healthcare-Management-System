@@ -11,5 +11,6 @@ urlpatterns = [
     path('doctor_portal/', portals_views.doctor_portal, name='doctor-portal'),
     path('staff_portal/', portals_views.staff_portal, name='staff-portal'),
     path('nurse_portal/', portals_views.nurse_portal, name='nurse-portal'),
+    path('profile/', portals_views.profile, name='profile'),
 
 ]

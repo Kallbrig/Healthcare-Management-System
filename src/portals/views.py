@@ -20,3 +20,5 @@ def staff_portal(request):
 def nurse_portal(request):
 	return render(request, 'nurse_portal.html', {'title': 'Nurse-portal'})
 
+def profile(request):
+	return render(request, 'profile.html', {'title': 'Profile'})
