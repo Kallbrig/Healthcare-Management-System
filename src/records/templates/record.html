@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+    <a href="new_record" class="btn btn-dark" style="margin-bottom: 25px"> + New Record</a>
+
+    {% for object in object_list %}
+        {% if object %}
+     <div class="card card-light shadow-sm p-2" >
+
+
+        <div class="card-header">
+            <div class="row ml-1">
+                <h1>Record - {{ object.patient.get_full_name }} </h1>
+            </div>
+            <div class="row ml-1">
+                <p>Doctor - {{ object.doctor.get_full_name }}</p>
+
+            </div>
+             <a href="{% url "edit_record" object.id %}" class="btn btn-dark" style="margin-bottom: 25px"> Edit </a>
+        </div>
+
+        <div class="card-body m-0">
+            <ul class="list-group">
+
+                <div class="float-right list-group-item">
+                    <p class="font-weight-bold float-left p-0 m-0">Appointment</p>
+                    <p class="font-weight-bold float-right p-0 m-0">{{ object.appointment_date }}
+                        @ {{ object.appointment_time }}</p>
+                </div>
+
+                <div class="float-right list-group-item">
+                    <p class="font-weight-bold float-left p-0 m-0">Reason for visit</p>
+                    <p class="font-weight-bold float-right p-0 m-0">{{ object.reason_for_visit }}</p>
+                </div>
+
+                <div class="float-right list-group-item">
+                    <p class="font-weight-bold float-left p-0 m-0">Height</p>
+                    <p class="font-weight-bold float-right p-0 m-0">{{ object.height_feet }}
+                        ft {{ object.height_inches }} in</p>
+                </div>
+
+                <div class="float-right list-group-item">
+                    <p class="font-weight-bold float-left p-0 m-0">Weight</p>
+                    <p class="font-weight-bold float-right p-0 m-0">{{ object.weight_lbs }}</p>
+                </div>
+
+                <div class="float-right list-group-item">
+                    <p class="font-weight-bold float-left p-0 m-0">Blood Pressure</p>
+                    <p class="font-weight-bold float-right p-0 m-0">{{ object.blood_pressure }}</p>
+                </div>
+
+                <div class="float-right list-group-item">
+                    <p class="font-weight-bold float-left p-0 m-0">Pulse</p>
+                    <p class="font-weight-bold float-right p-0 m-0">{{ object.pulse }}</p>
+                </div>
+
+                {# Shows None if none are entered #}
+                {% if object.prescription|length > 0 %}
+                    <div class="float-right list-group-item">
+                        <p class="font-weight-bold p-0 m-0">Prescriptions:</p>
+                        <p class="font-weight-bold p-0 m-0">{{ object.prescription }}</p>
+                    </div>
+                {% else %}
+                    <div class="float-right list-group-item">
+                        <p class="font-weight-bold float-left p-0 m-0">Prescriptions:</p>
+                        <p class="font-weight-bold float-right p-0 m-0">None</p>
+                    </div>
+                {% endif %}
+
+                <div class="float-right list-group-item">
+                    <p class="font-weight-bold  p-0 m-0">Treatment:</p>
+                    <p class="font-weight-bold  p-0 m-0">{{ object.treatment }}</p>
+                </div>
+
+            </ul>
+
+
+        </div>
+    </div>
+
+
+
+        {% endif %}
+    {% endfor %}
+
+
+{% endblock content %}
