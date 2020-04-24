@@ -6,9 +6,7 @@ from .forms import UserRegisterForm
 
 
 def login(request):
-    form = UserRegisterForm()
-    context = {'form': form}
-    return render(request, 'accounts/login.html', context=context)
+    return redirect('login')
 
 
 def register(request):
