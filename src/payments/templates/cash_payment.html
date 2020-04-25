@@ -1,0 +1,49 @@
+
+
+{% extends "base.html" %}
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+
+    <div class="card card-primary">
+        <div class="card-header">
+            <h2>Make a Payment</h2>
+        </div>
+        <div class="float-right list-group-item">
+            <p class="font-weight-bold float-left p-0 m-0">Invoice Number</p>
+            <p class="font-weight-bold float-right p-0 m-0">{{ object.pk }}</p>
+        </div>
+
+        <div class="float-right list-group-item">
+            <p class="font-weight-bold float-left p-0 m-0">Amount Billed</p>
+            <p class="font-weight-bold float-right p-0 m-0">${{ object.amount_billed }}</p>
+        </div>
+
+        <div class="float-right list-group-item">
+            <p class="font-weight-bold float-left p-0 m-0">Amount Owed</p>
+            <p class="font-weight-bold float-right p-0 m-0">${{ object.amount_owed }}</p>
+        </div>
+
+        <div class="float-right list-group-item">
+            <p class="font-weight-bold float-left p-0 m-0">Payment Amount</p>
+
+            <form class="float-right" method="POST">{% csrf_token %}
+        <fieldset class="form-group">
+            <legend class=""></legend>
+            {{ form|crispy }}
+        </fieldset>
+        <div class="form-group">
+            <button class=" btn btn-secondary float-right" type="submit">Pay</button>
+            <small class="text-muted m-2">
+
+            </small>
+        </div>
+
+    </form>
+        </div>
+
+
+
+
+{% endblock content %}

@@ -11,6 +11,7 @@ urlpatterns = [
     path('make_payment/<int:pk>/', payment_views.MakePayment.as_view(), name='make-payment'),
     path('invoice_list/', payment_views.InvoiceList.as_view(), name='invoice-list'),
     path('payment_list/', payment_views.PaymentList.as_view(), name='payment-list'),
+    path('cash_payment/',payment_views.makeCashPayment, name='cash-payment')
 
 
     # path('pay/', payment_views.LogoutView.as_view(template_name='accounts/logout.html'), name='pay-invoice'),
