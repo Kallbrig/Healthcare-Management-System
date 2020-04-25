@@ -1,0 +1,74 @@
+
+
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+
+    <div class="card card-primary">
+        <div class="card-header">
+            <h2>Make a Payment</h2>
+        </div>
+        <div class="float-right list-group-item">
+            <p class="font-weight-bold float-left p-0 m-0">Invoice Number</p>
+            <p class="font-weight-bold float-right p-0 m-0">{{ object.pk }}</p>
+        </div>
+
+        <div class="float-right list-group-item">
+            <p class="font-weight-bold float-left p-0 m-0">Amount Billed</p>
+            <p class="font-weight-bold float-right p-0 m-0">${{ object.amount_billed }}</p>
+        </div>
+
+        <div class="float-right list-group-item">
+            <p class="font-weight-bold float-left p-0 m-0">Amount Owed</p>
+            <p class="font-weight-bold float-right p-0 m-0">${{ object.amount_owed }}</p>
+        </div>
+
+
+
+        <div class="float-right list-group-item">
+            <!-- Set up a container element for the button -->
+            <div id="paypal-button-container"></div>
+        </div>
+
+        <div class="float-right list-group-item">
+            <a href="{% url 'invoice-list'%}"><button type="button" class="btn btn-primary float-right">Go back</button></a>
+        </div>
+
+    </div>
+    <!-- Include the PayPal JavaScript SDK -->
+    <script src="https://www.paypal.com/sdk/js?client-id=AeFSJDq8sonOdMT62SM-B040Eo4YWi6IS6xsPqDe-eamtEbGs9Jtbf5AbtwjnPC45LjFPOCa4sNoHEIt&currency=USD&disable-funding=credit&commit=false"></script>
+
+    <script>
+        // Render the PayPal button into #paypal-button-container
+
+        paypal.Buttons({
+
+            // Set up the transaction
+            createOrder: function (data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: {{ object.amount_owed_as_string }}
+                        }
+                    }]
+                });
+            },
+
+            // Finalize the transaction
+            onApprove: function (data, actions) {
+                return actions.order.capture().then(function (details) {
+                    // Show a success message to the buyer
+
+                    alert('Transaction completed by ' + details.payer.name.given_name + '!');
+
+                });
+
+            }
+
+
+        }).render('#paypal-button-container');
+    </script>
+
+
+{% endblock content %}
