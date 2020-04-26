@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    {% if user.is_authenticated %}
+        <p>Welcome, {{ user.get_username }}. Here is your personal profile. </p>
+
+
+                <div class=" justify-content-center">
+                    <table style="margin-left: 25%" class="table table-dark table-striped table-bordered table-hover">
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Address</th>
+                            <th scope="col">Phone number</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">SSN</th>
+                            <th scope="col">Insurance</th>
+                        </tr>
+                        <tr>
+                            <td>{{ user.get_full_name }}</td>
+                            <td>{{ user.get_address }}</td>
+                            <td>{{ user.get_phone }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>{{ user.ssn }}</td>
+                            <td>{{ user.insurance }}</td>
+                        </tr>
+                    </table>
+                </div>
+        {% else %}
+        <h1>Please login.</h1>
+    {% endif %}
+
+{% endblock %}

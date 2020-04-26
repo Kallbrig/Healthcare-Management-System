@@ -31,7 +31,8 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'records.apps.RecordsConfig',
-
+    'portals.apps.PortalsConfig',
+    'appointments.apps.AppointmentsConfig',
     'crispy_forms',
 
     'django.contrib.admin',
@@ -122,4 +123,4 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # This setting allows us to control where the application redirects us to after logging in.
-LOGIN_REDIRECT_URL = '/admin'
+LOGIN_REDIRECT_URL = '/appointments'
