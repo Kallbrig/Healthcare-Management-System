@@ -18,4 +18,17 @@ def new_appointment(request):
         if not request.user.is_staff:
             del form.fields['patient']
         form.fields['doctor'].queryset = User.objects.filter(groups__name='Doctor')
+    return render(request, 'new_record.html', {'title': 'New-record', "new_record_form":form})
+
+
+def new_appointment(request):
+    if request.POST:
+        form = NewAppointmentForm(request.POST)
+        if form.is_valid(): #For more security might wanna add valiation so you can't manually(through html) assign nondoctor users to doctor
+            pass
+    else:
+        form = NewAppointmentForm()
+        if not request.user.is_staff:
+            del form.fields['patient']
+        form.fields['doctor'].queryset = User.objects.filter(groups__name='Doctor')
     return render(request, 'new_appointment.html', {"form":form})
