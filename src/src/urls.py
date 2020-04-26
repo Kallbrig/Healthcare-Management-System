@@ -26,5 +26,7 @@ urlpatterns = [
     path('', account_views.login),
     path('portals/', include('portals.urls')),
     path('payments/', include('payments.urls')),
+    path('reports/', include('reports.urls')),
+
 
 ]

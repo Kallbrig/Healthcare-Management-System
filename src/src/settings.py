@@ -34,6 +34,9 @@ INSTALLED_APPS = [
     'portals.apps.PortalsConfig',
     'appointments.apps.AppointmentsConfig',
     'payments.apps.PaymentsConfig',
+    'reports.apps.ReportsConfig',
+
+
     'crispy_forms',
 
     'django.contrib.admin',
