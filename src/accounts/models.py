@@ -18,4 +18,4 @@ class Patient(models.Model):
 	patientSSN = models.IntegerField()
 	patientInsurance = models.CharField(max_length =50)
 	def __str__ (self):
-		return self.patient.get_full_name
+		return self.patient.get_full_name()
