@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+
+    <div class="card p-4 float">
+        <div class="card-header mb-3"><h3>Payments - {{ user.username }}</h3></div>
+        {% for payment in object_list %}
+
+
+
+            <div id="acordian">
+                <div class="card">
+
+                    <button id="" class="card-header btn">
+
+                        <p class="float-left">{{ payment.invoice_number }} - {{ payment.date_billed }}</p>
+                        <span class="badge badge-primary badge-pill float-right">${{ payment.amount_owed }}</span>
+
+                    </button>
+
+
+                </div>
+            </div>
+
+        {% endfor %}
+    </div>
+
+{% endblock content %}
