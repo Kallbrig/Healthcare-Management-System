@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+	<form method="POST" enctype="multipart/form-data" id="appointmentForm"  data-time-url="{% url 'ajax_load_slots' %}" novalidate>
+		{% csrf_token %}
+		<fieldset class="form-group">
+			<legend class="border-bottom mb-4">Edit Appointment</legend>
+			{{ form|crispy }}
+		</fieldset>
+		<div class="form-group">
+            {% if  request.user.is_staff%}
+                <button class="btn btn-outline-success" name="confirm" value="confirm" type="submit">Check In</button>
+            {% endif %}
+			<button class="btn btn-outline-info" name="edit" value="edit" type="submit">Edit Appointment</button>
+            <button class="btn btn-outline-danger" type="submit" name="delete" value="delete">Cancel</button>
+		</div>
+	</form>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script>
+    $("#id_appointment_date").change(function () {
+      var url = $("#personForm").attr("data-time-url");  // get the url of the `load_cities` view
+      var date = $(this).val();  // get the selected country ID from the HTML input
+
+      $.ajax({                       // initialize an AJAX request
+        url: url,                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+        data: {
+          'date': date       // add the country id to the GET parameters
+        },
+        success: function (data) {   // `data` is the return of the `load_cities` view function
+          $("#id_appointment_time").html(data);  // replace the contents of the city input with the data that came from the server
+        }
+      });
+
+    });
+  </script>
+
+{% endblock content %}

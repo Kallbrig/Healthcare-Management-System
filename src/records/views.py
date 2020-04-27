@@ -29,8 +29,6 @@ class RecordUserList(ListView):
     template_name = 'records_list.html'
     model = Patient
 
-
-
     # def get_queryset(self):
     #     patients = Patient.objects.all()
     #     patient_list = []

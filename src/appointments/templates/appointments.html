@@ -13,23 +13,23 @@
                     <table style="margin-left: 25%" class="table table-dark table-striped table-bordered table-hover">
                         <tr>
                             <th scope="col">Patient ID</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Address</th>
-                            <th scope="col">Phone number</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">SSN</th>
-                            <th scope="col">Insurance</th>
+                            {% if  request.user.is_staff %}
+                                <th scope="col">Name</th>
+                            {% endif %}
+                            <th scope="col">Doctor</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Time</th>
                         </tr>
                             {% for object in object_list %}
                                 {% if object %}
-                        <tr onclick="document.location = '{% url "Record" object.pk %}';" >
+                        <tr onclick="document.location = '{% url "editAppointment" object.pk %}';" >
                             <th scope="row" >  {{object.pk}} </th>
-                            <td>{{ object.get_full_name }}</td>
-                            <td>{{ object.get_address }}</td>
-                            <td>{{ object.get_phone }}</td>
-                            <td>{{ object.email }}</td>
-                            <td>{{ object.ssn }}</td>
-                            <td>{{ object.insurance }}</td>
+                            {% if  request.user.is_staff %}
+                                <td>{{ object.patient.get_full_name }}</td>
+                            {% endif %}
+                            <td>{{ object.doctor.get_full_name }}</td>
+                            <td>{{ object.appointment_date }}</td>
+                            <td>{{ object.appointment_time }}</td>
                         </tr>
                                 {% endif %}
                              {% endfor %}
