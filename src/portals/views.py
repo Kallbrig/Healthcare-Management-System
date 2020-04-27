@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.views.generic import ListView, DetailView, UpdateView
 from django.contrib.auth.models import User
+from accounts.models import Doctor, Nurse
 
 
 # Create your views here.
@@ -22,3 +23,14 @@ def nurse_portal(request):
 
 def profile(request):
 	return render(request, 'profile.html', {'title': 'Profile'})
+
+def doctor_salary(request):
+	doctors = Doctor.objects.all()
+	context = {'doctors': doctors}
+	return render(request, 'doctor_salary.html', context)
+
+
+def nurse_salary(request):
+	nurses = Nurse.objects.all()
+	context = {'nurses': nurses}
+	return render(request, 'nurse_salary.html', context)

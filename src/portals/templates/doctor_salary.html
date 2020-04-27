@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+                <div class=" justify-content-center">
+                    <table style="margin-left: 25%" class="table table-dark table-striped table-bordered table-hover text-center">
+                        <tr>
+                            <th colspan="3">
+                                <h3>Doctor Salaries</h3>
+                            </th>
+                        </tr>
+                        {% if doctor %}
+                            <tr>
+                                <th scope="col">First Name</th>
+                                <th scope="col">Last Name</th>
+                                <th scope="col">Salary</th>
+                            </tr>
+                            {% for doctor in doctors %}
+                                <tr>
+                                    <td>{{ doctor.fname }}</td>
+                                    <td>{{ doctor.lname }}</td>
+                                    <td>{{ doctor.salary }}</td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                               <th colspan="3">
+                                   <h6>No Doctors in System</h6>
+                               </th> 
+                            </tr>
+                        {% endif %}
+                    </table>
+                </div>
+
+
+{% endblock %}
