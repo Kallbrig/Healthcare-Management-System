@@ -24,7 +24,7 @@ SECRET_KEY = 'p70&!0o1g6cn!umnf7tqrh#vw4xq@1i0an_bad&n+3rxc4zv#1'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -128,4 +128,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # This setting allows us to control where the application redirects us to after logging in.
+
 LOGIN_REDIRECT_URL = '/appointments'
