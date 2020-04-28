@@ -48,6 +48,6 @@ class Record(models.Model):
         return self.patient.__str__() + " - " + self.appointment_date.__str__()
 
     def get_absolute_url(self):
-        return reverse('', kwargs={'pk': self.pk})
+        return reverse('Record-User-List')
 
 

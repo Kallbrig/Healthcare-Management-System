@@ -4,38 +4,15 @@ from django.views.generic import ListView, DetailView, UpdateView, CreateView
 from django.contrib.auth.models import User
 from accounts.models import Patient
 from records.models import Record
-from records.forms import NewRecordForm
-from records.forms import NewPatientForm
+from records.forms import NewRecordForm, NewPatientForm
 
-
-# Create your views here.
-
-
-# class RecordUserList(ListView):
-#     template_name = 'records_list.html'
-#     model = User
-#     ordering = ['-last_name']
-#     paginate_by = 25
-#
-#     def get_queryset(self):
-#         patients = Patient.objects.all()
-#         patient_list = []
-#         for patient in patients:
-#             if patient not in patient_list:
-#                 patient_list.extend(User.objects.filter(id=patient.patient.id))
-#         return patient_list
 
 class RecordUserList(ListView):
     template_name = 'records_list.html'
-    model = Patient
+    model = Record
 
     # def get_queryset(self):
-    #     patients = Patient.objects.all()
-    #     patient_list = []
-    #     for patient in patients:
-    #         if patient not in patient_list:
-    #             patient_list.extend(User.objects.filter(id=patient.patient.id))
-    #     return patient_list
+    #     return User.objects.filter(groups__in='Patient')
 
 
 class Records(ListView):
@@ -48,6 +25,31 @@ class Records(ListView):
         record_list = records.filter(patient_id=id)
         return record_list
 
+
+class new_record(CreateView):
+    model = Record
+    template_name = 'new_record.html'
+    form_class = NewRecordForm
+
+
+class new_patient(CreateView):
+    model = Patient
+    template_name = 'new_patient.html'
+    form_class = NewPatientForm
+
+
+class edit_record(UpdateView):
+    model = Record
+    template_name = 'edit_record.html'
+    form_class = NewRecordForm
+
+    # def get_queryset(self):
+    #     patients = Patient.objects.all()
+    #     patient_list = []
+    #     for patient in patients:
+    #         if patient not in patient_list:
+    #             patient_list.extend(User.objects.filter(id=patient.patient.id))
+    #     return patient_list
 
 # def new_patient(request):
 #     if request.POST:
@@ -70,18 +72,6 @@ class Records(ListView):
 #     return render(request, 'new_patient.html', {'title': 'New-patient', "new_patient_form": form})
 
 
-class new_record(CreateView):
-    model = Record
-    template_name = 'new_record.html'
-    form_class = NewRecordForm
-
-
-class new_patient(CreateView):
-    model = Patient
-    template_name = 'new_patient.html'
-    form_class = NewPatientForm
-
-
 # def new_record(request, pk):
 #     if request.POST:
 #         form = NewRecordForm(request.POST)
@@ -97,18 +87,37 @@ class new_patient(CreateView):
 #     return render(request, 'new_record.html', {'title': 'New-record', "new_record_form": form})
 
 
-def edit_record(request, id):
-    record = Record.objects.all().get(id=id)
-    if request.POST:
-        form = NewRecordForm(request.POST, instance=record)
-        if form.is_valid():  # For more security might wanna add valiation so you can't manually(through html) assign nondoctor users to doctor
-            form.save()
-            messages.success(request, f'Record has been edited.')
-            return redirect('Record', pk=record.patient_id)
-    else:
-        form = NewRecordForm(instance=record)
-        form.fields['doctor'].queryset = User.objects.filter(
-            groups__name='Doctor')
+#
+# def edit_record(request, id):
+#     record = Record.objects.all().get(id=id)
+#     if request.POST:
+#         form = NewRecordForm(request.POST, instance=record)
+#         if form.is_valid():  # For more security might wanna add valiation so you can't manually(through html) assign nondoctor users to doctor
+#             form.save()
+#             messages.success(request, f'Record has been edited.')
+#             return redirect('Record', pk=record.patient_id)
+#     else:
+#         form = NewRecordForm(instance=record)
+#         form.fields['doctor'].queryset = User.objects.filter(
+#             groups__name='Doctor')
+#
+#     return render(request, 'edit_record.html',
+#                   {"form": form})  # can reuse the 'new_record.html' if you think it's going to be cleaner
 
-    return render(request, 'edit_record.html',
-                  {"form": form})  # can reuse the 'new_record.html' if you think it's going to be cleaner
+
+# Create your views here.
+
+
+# class RecordUserList(ListView):
+#     template_name = 'records_list.html'
+#     model = User
+#     ordering = ['-last_name']
+#     paginate_by = 25
+#
+#     def get_queryset(self):
+#         patients = Patient.objects.all()
+#         patient_list = []
+#         for patient in patients:
+#             if patient not in patient_list:
+#                 patient_list.extend(User.objects.filter(id=patient.patient.id))
+#         return patient_list

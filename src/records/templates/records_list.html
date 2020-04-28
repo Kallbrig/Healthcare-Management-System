@@ -8,7 +8,7 @@
 
 
                 <div>
-                <p>Welcome, {{ user.get_username }}. Here are all patient records.</p>
+                <p>Patient Records</p>
                     <table style="margin-left: 25%" class="table table-dark table-striped table-bordered table-hover">
                         <tr>
                             <th scope="col">Patient ID</th>
@@ -20,8 +20,8 @@
                             <th scope="col">Insurance</th>
                         </tr>
                             {% for object in object_list %}
-                                {% if object %}
-                        <tr onclick="document.location = '{% url "Record" object.pk %}';" >
+
+                        <tr onclick="document.location = '{% url "view-record" pk=object.pk %}';" >
                             <th scope="row" >  {{object.pk}} </th>
                             <td>{{ object.patient.get_full_name }}</td>
                             <td>{{ object.patientAddress }}</td>
@@ -30,7 +30,7 @@
                             <td>{{ object.patientSSN }}</td>
                             <td>{{ object.patientInsurance }}</td>
                         </tr>
-                                {% endif %}
+
                              {% endfor %}
 
                     </table>
