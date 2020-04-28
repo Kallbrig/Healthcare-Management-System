@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load crispy_forms_filters %}
+{% block content %}
+
+    <div class=" justify-content-center">
+
+        <table style="margin-left: 25%" class="table table-dark table-striped table-bordered table-hover text-center">
+            <tr>
+                <th colspan="4">
+                    <h3>doctor Salaries</h3>
+                </th>
+            </tr>
+
+            <tr>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">Salary</th>
+                <th scope="col">New Salary</th>
+            </tr>
+
+
+            <tr>
+                <td>{{ doctor.doctor.first_name }}</td>
+                <td>{{ object.doctor.last_name }}</td>
+                <td>${{ object.salary }}</td>
+                <td>
+                    <form method="post" >
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <button type="submit" class="btn btn-secondary" style="margin-top: 10px;">Save</button>
+                    </form>
+                </td>
+
+            </tr>
+
+
+        </table>
+
+    </div>
+
+
+{% endblock %}

@@ -37,24 +37,11 @@ class doctor_salary(ListView):
     model = Doctor
     template_name = 'doctor_salary.html'
 
-
-# def nurse_salary(request):
-#     nurses = Nurse.objects.all()
-#     context = {'nurses': nurses}
-#     return render(request, 'nurse_salary.html', context)
-
 class nurse_salary(ListView):
     model = Nurse
     template_name = 'nurse_salary.html'
 
 
-
-#
-# class edit_nurse_salary(FormView):
-#     model = Nurse
-#
-#     template_name = 'edit_nurse_salary.html'
-#     form_class = UpdateNurseForm
 
 
 class edit_nurse_salary(UpdateView):
@@ -63,8 +50,12 @@ class edit_nurse_salary(UpdateView):
     template_name = 'edit_nurse_salary.html'
     success_url = reverse_lazy('nurse-salary')
 
-    # form_class = UpdateNurseForm
-    # success_url = reverse_lazy('nurse-salary')
+class edit_doctor_salary(UpdateView):
+    model = Doctor
+    fields = ['salary']
+    template_name = 'edit_doctor_salary.html'
+    success_url = reverse_lazy('doctor-salary')
+
 
 # class edit_doctor_salary(FormView):
 # 	model = Doctor
