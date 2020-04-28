@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.views.generic import ListView, DetailView, UpdateView
+from django.views.generic import ListView, DetailView, UpdateView, CreateView
 from django.contrib.auth.models import User
 from accounts.models import Patient
 from records.models import Record
@@ -42,7 +42,6 @@ class Records(ListView):
     template_name = 'record.html'
     model = Record
 
-
     def get_queryset(self):
         id = self.kwargs["pk"]
         records = Record.objects.all()
@@ -50,42 +49,52 @@ class Records(ListView):
         return record_list
 
 
-def new_patient(request):
-    if request.POST:
-        form = NewPatientForm(request.POST)
-        if form.is_valid():
-            form = form.clean()
-            user = form.get('patient')
-            patient_address = form.get('patientAddress')
-            patient_phone = form.get('patientPhone')
-            patient_ssn = form.get('patientSSN')
-            patient_insurance = form.get('patientInsurance')
-            Patient(patient=user, patientAddress=patient_address, patientPhone=patient_phone,
-                    patientSSN=patient_ssn, patientInsurance=patient_insurance,).save()
-
-            messages.success(request, f'New patient has been added.')
-            return redirect('Record-User-List')
-    else:
-        form = NewPatientForm()
-        form.fields['patient'].queryset = User.objects.filter(groups__name='Patient')
-    return render(request, 'new_patient.html', {'title': 'New-patient', "new_patient_form": form})
-
-
+# def new_patient(request):
+#     if request.POST:
+#         form = NewPatientForm(request.POST)
+#         if form.is_valid():
+#             form = form.clean()
+#             user = form.get('patient')
+#             patient_address = form.get('patientAddress')
+#             patient_phone = form.get('patientPhone')
+#             patient_ssn = form.get('patientSSN')
+#             patient_insurance = form.get('patientInsurance')
+#             Patient(patient=user, patientAddress=patient_address, patientPhone=patient_phone,
+#                     patientSSN=patient_ssn, patientInsurance=patient_insurance, ).save()
+#
+#             messages.success(request, f'New patient has been added.')
+#             return redirect('Record-User-List')
+#     else:
+#         form = NewPatientForm()
+#         form.fields['patient'].queryset = User.objects.filter(groups__name='Patient')
+#     return render(request, 'new_patient.html', {'title': 'New-patient', "new_patient_form": form})
 
 
-def new_record(request, pk):
-    if request.POST:
-        form = NewRecordForm(request.POST)
-        if form.is_valid():  # For more security might wanna add valiation so you can't manually(through html) assign nondoctor users to doctor
-            instance = form.save(commit=False)
-            instance.patient_id = pk
-            instance.save()
-            messages.success(request, f'New record has been added.')
-            return redirect('Record', pk=pk)
-    else:
-        form = NewRecordForm()
-        form.fields['doctor'].queryset = User.objects.filter(groups__name='Doctor')
-    return render(request, 'new_record.html', {'title': 'New-record', "new_record_form": form})
+class new_record(CreateView):
+    model = Record
+    template_name = 'new_record.html'
+    form_class = NewRecordForm
+
+
+class new_patient(CreateView):
+    model = Patient
+    template_name = 'new_patient.html'
+    form_class = NewPatientForm
+
+
+# def new_record(request, pk):
+#     if request.POST:
+#         form = NewRecordForm(request.POST)
+#         if form.is_valid():  # For more security might wanna add valiation so you can't manually(through html) assign nondoctor users to doctor
+#             instance = form.save(commit=False)
+#             instance.patient_id = pk
+#             instance.save()
+#             messages.success(request, f'New record has been added.')
+#             return redirect('Record', pk=pk)
+#     else:
+#         form = NewRecordForm()
+#         form.fields['doctor'].queryset = User.objects.filter(groups__name='Doctor')
+#     return render(request, 'new_record.html', {'title': 'New-record', "new_record_form": form})
 
 
 def edit_record(request, id):
