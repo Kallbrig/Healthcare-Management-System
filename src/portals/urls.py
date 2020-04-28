@@ -13,6 +13,9 @@ urlpatterns = [
     path('nurse_portal/', portals_views.nurse_portal, name='nurse-portal'),
     path('profile/', portals_views.profile, name='profile'),
     path('doctor_salary/', portals_views.doctor_salary, name='doctor-salary'),
-    path('nurse_salary/', portals_views.nurse_salary, name='nurse-salary')
+    path('nurse_salary/', portals_views.nurse_salary.as_view(), name='nurse-salary'),
+    path('edit_nurse_salary/<int:pk>/', portals_views.edit_nurse_salary.as_view(), name='edit-nurse-salary'),
+    # path('edit_doctor_salary/<int:pk>/', portals_views.edit_doctor_salary.as_view(), name='edit-nurse-salary'),
+
 
 ]
