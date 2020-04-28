@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.views.generic import ListView, DetailView, UpdateView, FormView
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User,Group
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from accounts.models import Doctor, Nurse
 from .forms import UpdateNurseForm, UpdateDoctorForm
@@ -26,6 +26,8 @@ def staff_portal(request):
 
 
 def nurse_portal(request):
+    if request.user in Group.objects.get(name='Nurse').user_set.all():
+        print('big dicks rule')
     return render(request, 'nurse_portal.html', {'title': 'Nurse-portal'})
 
 
