@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 # Create your views here.
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from .models import Report
 from django.contrib.auth.decorators import login_required
 
@@ -18,6 +18,8 @@ class ReportListView(ListView):
     #################################################################################################
 
     model = User
+
+
 
     # DEFAULT BEHAVIOR
     # looks for template with naming structure of <app>/<model>_<viewtype>.html
@@ -37,8 +39,9 @@ class ReportListView(ListView):
 
     # This allows for pagination. if you've gone through a tutorial, this should be self explanatory.
     # if not, check this: https://youtu.be/acOktTcTVEQ
-    paginate_by = 15
-
+    # paginate_by = 15
+    def get_queryset(self):
+        return User.objects.filter(groups=1)
 
 
 
