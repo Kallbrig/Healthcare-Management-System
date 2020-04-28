@@ -21,6 +21,7 @@ class Patient(models.Model):
 class Doctor(models.Model):
     doctor = models.ForeignKey(User, limit_choices_to={'groups': 1, }, on_delete=models.CASCADE, related_name='Doctor')
     salary = models.DecimalField(max_digits=8, decimal_places=2)
+    health_service_income = models.DecimalField(max_digits=8, decimal_places=2)
 
     def __str__(self):
         return self.doctor.get_full_name()
@@ -38,3 +39,5 @@ class Nurse(models.Model):
 
     def get_absolute_url(self):
         return reverse('nurse-salary')
+
+
