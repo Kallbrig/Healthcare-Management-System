@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-
+{% if user.is_authenticated %}
 	<form method="POST" enctype="multipart/form-data">
 		{% csrf_token %}
 		<fieldset class="form-group">
@@ -12,5 +12,5 @@
 			<button class="btn btn-outline-info" type="submit">Add Appointment</button>
 		</div>
 	</form>
-
+{% endif %}
 {% endblock content %}

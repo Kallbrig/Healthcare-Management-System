@@ -21,7 +21,7 @@ class Appointment(models.Model):
 
     patient = models.ForeignKey(User, on_delete=models.CASCADE, related_name="PatientAppointment")
     doctor = models.ForeignKey(User, on_delete=models.CASCADE)
-    appointment_date = models.DateField(default=timezone.now)
+    appointment_date = models.DateField(default=timezone.now, blank=False)
     appointment_time = models.SmallIntegerField(choices=choices_slots, blank=False)
 
 
