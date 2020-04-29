@@ -15,6 +15,16 @@ def user_belongs_to_ceo_group(user):
         return False
 
 
+def user_belongs_to_patient_group(user):
+    if user in Group.objects.get(name='Patient').user_set.all() and user.is_authenticated:
+        return True
+    else:
+        return False
+
+
+
+
+# secured
 @login_required
 def portal(request):
     groups = []
@@ -36,28 +46,35 @@ def portal(request):
     return render(request, 'portal.html', {'title': 'Portal', 'groups': groups})
 
 
+@user_passes_test(user_belongs_to_patient_group,login_url=reverse_lazy('portal'))
 def profile(request):
+
     return render(request, 'profile.html', {'title': 'Profile'})
 
 
-#
+# secured
 class doctor_salary(UserPassesTestMixin, ListView):
-    model = Doctor
-    template_name = 'doctor_salary.html'
-    redirect_field_name = '/portals/'
-
     def test_func(self):
         if self.request.user in Group.objects.get(name='CEO').user_set.all():
             return True
         else:
             return False
 
+    model = Doctor
+    template_name = 'doctor_salary.html'
+    redirect_field_name = '/portals/'
     permission_denied_message = 'You do not have the proper permissions to access this page.'
+
+
+
+
+
 
 
 class nurse_salary(UserPassesTestMixin, ListView):
     model = Nurse
     template_name = 'nurse_salary.html'
+    permission_denied_message = 'You do not have the proper permissions to access this page.'
 
     def test_func(self):
         if self.request.user in Group.objects.get(name='CEO').user_set.all():
@@ -65,7 +82,7 @@ class nurse_salary(UserPassesTestMixin, ListView):
         else:
             return False
 
-    permission_denied_message = 'You do not have the proper permissions to access this page.'
+
 
 
 class edit_nurse_salary(UserPassesTestMixin, UpdateView):
@@ -73,6 +90,7 @@ class edit_nurse_salary(UserPassesTestMixin, UpdateView):
     fields = ['salary']
     template_name = 'edit_nurse_salary.html'
     success_url = reverse_lazy('nurse-salary')
+    permission_denied_message = 'You do not have the proper permissions to access this page.'
 
     def test_func(self):
         if self.request.user in Group.objects.get(name='CEO').user_set.all():
@@ -80,7 +98,7 @@ class edit_nurse_salary(UserPassesTestMixin, UpdateView):
         else:
             return False
 
-    permission_denied_message = 'You do not have the proper permissions to access this page.'
+
 
 
 class edit_doctor_salary(UserPassesTestMixin, UpdateView):
@@ -89,6 +107,7 @@ class edit_doctor_salary(UserPassesTestMixin, UpdateView):
     template_name = 'edit_doctor_salary.html'
     success_url = reverse_lazy('doctor-salary')
     redirect_field_name = '/portal/'
+    permission_denied_message = 'You do not have the proper permissions to access this page.'
 
     def test_func(self):
         if self.request.user in Group.objects.get(name='CEO').user_set.all():
@@ -96,4 +115,4 @@ class edit_doctor_salary(UserPassesTestMixin, UpdateView):
         else:
             return False
 
-    permission_denied_message = 'You do not have the proper permissions to access this page.'
+

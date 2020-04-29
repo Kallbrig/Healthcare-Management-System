@@ -4,9 +4,11 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.contrib.auth.models import User, Group
 from .models import Report
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin, AccessMixin
 
 
-class ReportListView(ListView):
+
+class ReportListView(UserPassesTestMixin, ListView):
     #################################################################################################
     # The logic here is handled in the view. all Users are passed in, but only those with
     # reports associated with their accounts are shown in the list. This was done this way to save time
@@ -43,6 +45,12 @@ class ReportListView(ListView):
     def get_queryset(self):
         return User.objects.filter(groups=1)
 
+    def test_func(self):
+        if self.request.user in Group.objects.get(name='CEO').user_set.all():
+            return True
+        else:
+            return False
+
 
 
 
@@ -51,4 +59,10 @@ class ReportDetailView(DetailView):
     model = Report
     template_name = 'reports/report.html'
     context_object_name = 'report'
+
+    def test_func(self):
+        if self.request.user in Group.objects.get(name='CEO').user_set.all():
+            return True
+        else:
+            return False
 

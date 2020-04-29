@@ -1,23 +1,41 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.views.generic import ListView, DetailView, UpdateView, CreateView
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from accounts.models import Patient
 from records.models import Record
 from records.forms import NewRecordForm, NewPatientForm
+from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin, AccessMixin
 
 
-class RecordUserList(ListView):
+class RecordUserList(UserPassesTestMixin, ListView):
     template_name = 'records_list.html'
     model = Record
 
-    # def get_queryset(self):
-    #     return User.objects.filter(groups__in='Patient')
+    def test_func(self):
+        if self.request.user in Group.objects.get(
+
+                name='Staff').user_set.all() or self.request.user in Group.objects.get(
+            name='Nurse').user_set.all() or self.request.user in Group.objects.get(
+            name='CEO').user_set.all() or self.request.user in Group.objects.get(name='Doctor').user_set.all():
+            return True
+        else:
+            return False
 
 
-class Records(ListView):
+class Records(UserPassesTestMixin, ListView):
     template_name = 'record.html'
     model = Record
+
+    def test_func(self):
+        if self.request.user in Group.objects.get(
+                name='Staff').user_set.all() or self.request.user in Group.objects.get(
+            name='Nurse').user_set.all() or self.request.user in Group.objects.get(
+            name='CEO').user_set.all() or self.request.user in Group.objects.get(name='Doctor').user_set.all():
+
+            return True
+        else:
+            return False
 
     def get_queryset(self):
         id = self.kwargs["pk"]
@@ -31,17 +49,35 @@ class new_record(CreateView):
     template_name = 'new_record.html'
     form_class = NewRecordForm
 
+    def test_func(self):
+        if self.request.user in Group.objects.get(name='Staff').user_set.all():
+            return True
+        else:
+            return False
+
 
 class new_patient(CreateView):
     model = Patient
     template_name = 'new_patient.html'
     form_class = NewPatientForm
 
+    def test_func(self):
+        if self.request.user in Group.objects.get(name='Staff').user_set.all():
+            return True
+        else:
+            return False
+
 
 class edit_record(UpdateView):
     model = Record
     template_name = 'edit_record.html'
     form_class = NewRecordForm
+
+    def test_func(self):
+        if self.request.user in Group.objects.get(name='Nurse').user_set.all() or self.request.user in Group.objects.get(name='Doctor').user_set.all() or self.request.user in Group.objects.get(name='Staff').user_set.all():
+            return True
+        else:
+            return False
 
     # def get_queryset(self):
     #     patients = Patient.objects.all()

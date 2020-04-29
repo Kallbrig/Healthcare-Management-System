@@ -3,29 +3,58 @@ from django.views.generic import ListView, DetailView
 from . import models as payment_models
 from . import forms as payment_forms
 from django.contrib import messages
-
+from django.contrib.auth.decorators import user_passes_test, login_required
+from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin, AccessMixin
 from .models import Payment, Invoice
+from django.contrib.auth.models import User, Group
 
+# test function
+def user_belongs_to_staff_group(user):
+    if user in Group.objects.get(name='Staff').user_set.all():
+        return True
+    else:
+        return False
 
-class PaymentList(ListView):
+# secured
+class PaymentList(UserPassesTestMixin, ListView):
     model = Payment
     paginate_by = 15
     ordering = ['payment_amount']
     template_name = 'payment_list.html'
 
+    def test_func(self):
+        if self.request.user in Group.objects.get(name='patinet').user_set.all():
+            return True
+        else:
+            return False
 
-class MakePayment(DetailView):
+# secured
+class MakePayment(UserPassesTestMixin, DetailView):
     model = Invoice
     template_name = 'make_payment.html'
 
+    def test_func(self):
+        if self.request.user in Group.objects.get(name='patient').user_set.all():
+            return True
+        else:
+            return False
 
-class InvoiceList(ListView):
+# secured
+class InvoiceList(UserPassesTestMixin, ListView):
     model = Invoice
     paginate_by = 15
     ordering = ['date_billed']
     template_name = 'invoice_list.html'
 
+    def test_func(self):
+        if self.request.user in Group.objects.get(name='CEO').user_set.all():
+            return True
+        else:
+            return False
 
+# secured
+@login_required()
+@user_passes_test(user_belongs_to_staff_group)
 def makeCashPayment(request, ):
     if request.method == 'POST':
         form = payment_forms.PaymentForm(request.POST)
@@ -48,11 +77,11 @@ def makeCashPayment(request, ):
                 else:
 
                     updated_invoice.amount_owed = new_amount_owed
-                    updated_invoice.save()
+
                     # creating new cash payment
                     Payment(invoice=updated_invoice, payment_amount=form.get('payment_amount'),
                             payment_method='Cash').save()
-
+                    updated_invoice.save()
             except:
 
                 messages.add_message(request, messages.WARNING, 'Something Went Wrong. Try Again')
