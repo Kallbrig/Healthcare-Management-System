@@ -69,5 +69,3 @@ def edit_appointment(request, pk):
     return render(request, "edit_appointment.html", {"form" : form})
 
 
-def load_slots(reqest):
-    pass
