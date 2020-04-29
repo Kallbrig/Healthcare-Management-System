@@ -18,8 +18,8 @@
                         <div class="col-6 border border-dark shadow-lg">
                             <h2 style="text-align: center; padding: 10px">Reports</h2>
                             <ul>
-                                <li><a href="#">View Daily Reports</a></li>
-                                <li><a href="#">View Monthly Reports</a></li>
+                                <li><a href="{% url 'report-list' %}">View Daily Reports</a></li>
+                                <li><a href="{% url 'report-list' %}">View Monthly Reports</a></li>
                             </ul>
                         </div>
 
@@ -160,8 +160,6 @@
 
 
     {% endif %}
-
-
     {% if 'patient' in groups %}
 
         <div class="card m-5">
@@ -191,20 +189,14 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-6 border border-dark">
+                        <div class="col border border-dark">
                             <h2 style="text-align: center; padding: 10px">Appointments</h2>
                             <ul>
                                 <li><a href="#">Schedule an Appointment</a></li>
                                 <li><a href="#">View/Reschedule Appointment</a></li>
                             </ul>
                         </div>
-                        <div class="col-6 border border-dark">
-                            <h2 style="text-align: center; padding: 10px">Contact Us</h2>
-                            <ul>
-                                <li><a href="#">Email</a></li>
-                                <li><a href="#">Phone</a></li>
-                            </ul>
-                        </div>
+
                     </div>
 
                 </div>
