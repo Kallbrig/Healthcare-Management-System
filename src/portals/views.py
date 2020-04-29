@@ -8,27 +8,26 @@ from accounts.models import Doctor, Nurse
 from .forms import UpdateNurseForm, UpdateDoctorForm
 
 
-# Create your views here.
-def patient_portal(request):
-    return render(request, 'patient_portal.html', {'title': 'Patient-portal'})
 
 
-def ceo_portal(request):
-    return render(request, 'CEO_portal.html', {'title': 'Ceo-portal'})
+def portal(request):
+    groups = []
+    if request.user in Group.objects.get(name='CEO').user_set.all():
+        groups.append('ceo')
 
-
-def doctor_portal(request):
-    return render(request, 'doctor_portal.html', {'title': 'Doctor-portal'})
-
-
-def staff_portal(request):
-    return render(request, 'staff_portal.html', {'title': 'Staff-portal'})
-
-
-def nurse_portal(request):
     if request.user in Group.objects.get(name='Nurse').user_set.all():
+        groups.append('nurse')
 
-    return render(request, 'nurse_portal.html', {'title': 'Nurse-portal'})
+    if request.user in Group.objects.get(name='Doctor').user_set.all():
+        groups.append('doctor')
+
+    if request.user in Group.objects.get(name='Patient').user_set.all():
+        groups.append('patient')
+
+    if request.user in Group.objects.get(name='Staff').user_set.all():
+        groups.append('staff')
+
+    return render(request, 'portal.html', {'title': 'Portal', 'groups': groups})
 
 
 def profile(request):
