@@ -10,20 +10,26 @@ from .forms import NewAppointmentForm
 def appointments(request):
 
     appointments = []
-    if not request.user.is_staff:
+    if request.user.groups.filter(name="Patient").exists():
         appointments = Appointment.objects.all().filter(patient_id=request.user.id)
+    elif request.user.groups.filter(name="Doctor").exists():
+        appointments = Appointment.objects.all().filter(doctor_id=request.user.id)
     else:
         appointments = Appointment.objects.all()
 
+    appointments = appointments.order_by("appointment_date","appointment_time")
+
     for appointment in appointments:
         appointment.appointment_time = Appointment.choices_slots[appointment.appointment_time][1]
+
+
 
     return render(request, 'appointments.html', {"object_list": appointments})
 
 
 def new_appointment(request):
     if request.POST:
-        if not request.user.is_staff:
+        if request.user.groups.filter(name="Patient").exists():
             updated_request = request.POST.copy()
             updated_request.update({'patient': request.user})
             form = NewAppointmentForm(updated_request)
@@ -38,8 +44,9 @@ def new_appointment(request):
         form = NewAppointmentForm()
         form.fields['doctor'].queryset = User.objects.filter(groups__name='Doctor')
         form.fields['patient'].queryset = User.objects.filter(groups__name='Patient')
-        if not request.user.is_staff:
+        if request.user.groups.filter(name="Patient").exists():
             form.fields['patient'].widget = form.fields['patient'].hidden_widget()
+
     return render(request, 'new_appointment.html', {"form" : form})
 
 
@@ -63,11 +70,9 @@ def edit_appointment(request, pk):
         form = NewAppointmentForm(instance=appointment)
         form.fields['doctor'].queryset = User.objects.filter(groups__name='Doctor')
         form.fields['patient'].queryset = User.objects.filter(groups__name='Patient')
-        if not request.user.is_staff:
+        if request.user.groups.filter(name="Patient").exists():
             form.fields['patient'].widget = form.fields['patient'].hidden_widget()
 
     return render(request, "edit_appointment.html", {"form" : form})
 
 
-def load_slots(reqest):
-    pass

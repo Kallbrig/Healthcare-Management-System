@@ -1,7 +1,10 @@
+
 {% extends "base.html" %}
 
 
+
 {% block content %}
+
 
  {% if user.is_authenticated %}
         <p>Welcome, {{ user.get_username }}. Here are all patient records.</p>
@@ -13,10 +16,12 @@
                     <table style="margin-left: 25%" class="table table-dark table-striped table-bordered table-hover">
                         <tr>
                             <th scope="col">Patient ID</th>
-                            {% if  request.user.is_staff %}
+                            {% if   "Patient" not in user.groups.all.0.name  %}
                                 <th scope="col">Name</th>
                             {% endif %}
-                            <th scope="col">Doctor</th>
+                            {% if   "Patient"  in user.groups.all.0.name  %}
+                                <th scope="col">Doctor</th>
+                            {% endif %}
                             <th scope="col">Date</th>
                             <th scope="col">Time</th>
                         </tr>
@@ -24,10 +29,13 @@
                                 {% if object %}
                         <tr onclick="document.location = '{% url "editAppointment" object.pk %}';" >
                             <th scope="row" >  {{object.pk}} </th>
-                            {% if  request.user.is_staff %}
+                            {% if  "Patient" not in user.groups.all.0.name %}
                                 <td>{{ object.patient.get_full_name }}</td>
                             {% endif %}
-                            <td>{{ object.doctor.get_full_name }}</td>
+                            {% if   "Patient"  in user.groups.all.0.name  %}
+                                <td>{{ object.doctor.get_full_name }}</td>
+                            {% endif %}
+
                             <td>{{ object.appointment_date }}</td>
                             <td>{{ object.appointment_time }}</td>
                         </tr>
