@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+
+    <div class="card p-4 float">
+        <div class="card-header mb-3"><h3>Reports</h3></div>
+        {% for object in object_list %}
+
+
+
+                <div id="acordian">
+                    <div class="card">
+
+                        <button id=""  class="card-header btn btn-link collapsed" data-toggle="collapse"
+                                data-target="#{{ object.username }}"
+                                aria-expanded="false" aria-controls="{{ object.username }}">
+
+                            <p class="float-left">{{ object.get_full_name }}</p>
+                            <span class="badge badge-primary badge-pill float-right">{{ object.report_set.count }}</span>
+
+                        </button>
+
+
+                        <div id="{{ object.username }}"  class="card-body collapse" >
+                            {% for report in object.report_set.all %}
+
+                                <ul id="" class="list-group">
+                                    <a id="{% url 'report' report.id %}" href="{{ report.id }}" class="list-group-item list-group-item-action">{{ report }}</a>
+                                </ul>
+
+                            {% endfor %}
+                        </div>
+
+
+                    </div>
+                </div>
+
+        {% endfor %}
+    </div>
+
+{% endblock content %}

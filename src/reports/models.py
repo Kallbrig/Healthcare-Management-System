@@ -10,7 +10,7 @@ from django.template.defaultfilters import slugify
 # The class below allows reports to be made for any user.
 # This isn't problematic for now and can be used to promote scalability later.
 class Report(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, limit_choices_to={'groups': 1, }, on_delete=models.CASCADE)
     start_date = models.DateField(default=now())
     end_date = models.DateField(default=now())
     health_service_income = models.PositiveIntegerField(default=0)
@@ -21,7 +21,7 @@ class Report(models.Model):
         return self.user.__str__()
 
     def get_absolute_url(self):
-        return reverse('', kwargs={'pk': self.pk})
+        return reverse('report-list')
 
 # Filtering Example
 # Aparently django doesn't have built in methods to prevent

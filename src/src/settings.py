@@ -129,4 +129,4 @@ STATIC_URL = '/static/'
 
 # This setting allows us to control where the application redirects us to after logging in.
 
-LOGIN_REDIRECT_URL = '/appointments'
+LOGIN_REDIRECT_URL = '/portals/'

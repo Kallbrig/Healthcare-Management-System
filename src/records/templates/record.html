@@ -17,7 +17,7 @@
                 <p>Doctor - {{ object.doctor.get_full_name }}</p>
 
             </div>
-             <a href="{% url "edit_record" object.id %}" class="btn btn-dark" style="margin-bottom: 25px"> Edit </a>
+             <a href="{% url "edit-record" pk=object.id %}" class="btn btn-dark" style="margin-bottom: 25px"> Edit </a>
         </div>
 
         <div class="card-body m-0">

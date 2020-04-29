@@ -10,10 +10,17 @@ from django.contrib.admin.utils import timezone
 class Invoice(models.Model):
     # invoice number is it's primary key
     patient = models.ForeignKey(User, on_delete=models.CASCADE)
-    amount_owed = models.DecimalField(decimal_places=2, max_digits=8)
+    amount_owed = models.DecimalField(decimal_places=2, max_digits=8, )
     amount_billed = models.DecimalField(decimal_places=2, max_digits=8)
     date_billed = models.DateField(default=timezone.now)
+    # prev_amount_owed = models.DecimalField(decimal_places=2, max_digits=8, )
 
+    # def save(self, force_insert=False, force_update=False, using=None,
+    #          update_fields=None):
+    #
+    #     if self.amount_owed > self.amount_billed:
+    #         self.amount_owed = self.amount_owed
+    #         self.amount_owed = 0
 
     def amount_owed_as_string(self):
         return str(self.amount_owed)

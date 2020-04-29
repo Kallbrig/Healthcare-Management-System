@@ -4,14 +4,6 @@ from django.contrib.auth.models import User, Group
 from django.urls import reverse
 import django
 
-
-from django.template.defaultfilters import slugify
-from django.utils import timezone
-
-
-# Create your models here.
-
-
 class Record(models.Model):
     choices_feet = (
         (0, '0'),
@@ -38,11 +30,11 @@ class Record(models.Model):
         (10, '10'),
         (11, '11'),
     )
-    patient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='Pat')
-    doctor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='Doc')
+    patient = models.ForeignKey(User, limit_choices_to={'groups': 3, }, on_delete=models.CASCADE, related_name='Pat')
+    doctor = models.ForeignKey(User, limit_choices_to={'groups': 1, }, on_delete=models.CASCADE, related_name='Doc')
     # THESE DEFAULT TO NOW. THEY SHOULD DEFAULT TO APPOINTMENT TIME
-    appointment_date = models.DateField(default=timezone.now)
-    appointment_time = models.TimeField(default=timezone.now)
+    appointment_date = models.DateField(default=django.utils.timezone.now)
+    appointment_time = models.TimeField(default=django.utils.timezone.now)
     weight_lbs = models.PositiveIntegerField(blank=True, default=0)
     height_feet = models.PositiveSmallIntegerField(choices=choices_feet, default=0, blank=True)
     height_inches = models.PositiveSmallIntegerField(choices=choices_inches, default=0, blank=True)
@@ -56,4 +48,6 @@ class Record(models.Model):
         return self.patient.__str__() + " - " + self.appointment_date.__str__()
 
     def get_absolute_url(self):
-        return reverse('', kwargs={'pk': self.pk})
+        return reverse('Record-User-List')
+
+

@@ -12,5 +12,4 @@ class PaymentForm(forms.Form):
         fields = [
             'payment_amount',
             'invoice_number',
-
         ]
