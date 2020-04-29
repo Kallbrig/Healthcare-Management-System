@@ -27,7 +27,7 @@ def staff_portal(request):
 
 def nurse_portal(request):
     if request.user in Group.objects.get(name='Nurse').user_set.all():
-        print('big dicks rule')
+
     return render(request, 'nurse_portal.html', {'title': 'Nurse-portal'})
 
 
