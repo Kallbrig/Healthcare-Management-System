@@ -8,7 +8,7 @@ from records.forms import NewRecordForm, NewPatientForm
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin, AccessMixin
 
 
-class RecordUserList(UserPassesTestMixin, ListView):
+class RecordListAll(UserPassesTestMixin, ListView):
     template_name = 'records_list.html'
     model = Record
 
@@ -23,25 +23,24 @@ class RecordUserList(UserPassesTestMixin, ListView):
             return False
 
 
-class Records(UserPassesTestMixin, DetailView):
+class ViewRecord(UserPassesTestMixin, DetailView):
     template_name = 'record.html'
     model = Record
 
     def test_func(self):
-        if self.request.user in Group.objects.get(
-                name='Staff').user_set.all() or self.request.user in Group.objects.get(
-                name='Nurse').user_set.all() or self.request.user in Group.objects.get(
-                name='CEO').user_set.all() or self.request.user in Group.objects.get(name='Doctor').user_set.all():
+        print(22)
+        if self.request.user in Group.objects.get(name='Staff').user_set.all():
+            return True
+        if self.request.user in Group.objects.get(name='Patient').user_set.all():
+            #This needs validation that patient is actually the patient
+            return True
+        if self.request.user in Group.objects.get(name='Nurse').user_set.all():
+            return True
+        if self.request.user in Group.objects.get(name='Doctor').user_set.all():
             return True
 
-        elif self.request.user in Group.objects.get(name='Patient').user_set.all() and Record.patient.pk == self.request.user.pk:
-            return True
         else:
             return False
-
-    def get_queryset(self):
-        if self.request.user in Group.objects.get(name='Patient').user_set.all():
-            return
 
 
 class new_record(UserPassesTestMixin, CreateView):
@@ -63,6 +62,7 @@ class new_patient(CreateView):
 
     def test_func(self):
         if self.request.user in Group.objects.get(name='Staff').user_set.all():
+
             return True
         else:
             return False
@@ -76,7 +76,7 @@ class edit_record(UpdateView):
     def test_func(self):
         if self.request.user in Group.objects.get(
                 name='Nurse').user_set.all() or self.request.user in Group.objects.get(
-                name='Doctor').user_set.all() or self.request.user in Group.objects.get(name='Staff').user_set.all():
+            name='Doctor').user_set.all() or self.request.user in Group.objects.get(name='Staff').user_set.all():
             return True
         else:
             return False
@@ -146,16 +146,17 @@ class edit_record(UpdateView):
 # Create your views here.
 
 
-# class RecordUserList(ListView):
-#     template_name = 'records_list.html'
-#     model = User
-#     ordering = ['-last_name']
-#     paginate_by = 25
-#
-#     def get_queryset(self):
-#         patients = Patient.objects.all()
-#         patient_list = []
-#         for patient in patients:
-#             if patient not in patient_list:
-#                 patient_list.extend(User.objects.filter(id=patient.patient.id))
-#         return patient_list
+class RecordUserList(UserPassesTestMixin,ListView):
+    template_name = 'records_list.html'
+    model = Record
+    ordering = ['date']
+    extra_context = {'patient': Record.patient}
+
+    def test_func(self):
+        return True
+
+    def get_queryset(self):
+        if self.request.user in Group.objects.get(name='Patient').user_set.all():
+            return Record.objects.filter(patient=self.request.user).all()
+        else:
+            return Record.objects.all()

@@ -21,8 +21,9 @@ from django.contrib.auth import views as auth_views
 from . import views as records_views
 
 urlpatterns = [
-    path('record_list/', records_views.RecordUserList.as_view(), name='Record-User-List'),
-    path('view_record/<int:pk>/', records_views.Records.as_view(), name='view-record'),
+    path('record_list_user/', records_views.RecordUserList.as_view(), name='Record-User-List'),
+    path('record_list_all/', records_views.RecordListAll.as_view(), name='record-list-all'),
+    path('view_record/<int:pk>/', records_views.ViewRecord.as_view(), name='view-record'),
     path('new_patient/', records_views.new_patient.as_view(), name='new_patient'),
     path('new_record/', records_views.new_record.as_view(), name='new_record'),
     path('edit/<int:pk>/', records_views.edit_record.as_view(), name='edit-record'),

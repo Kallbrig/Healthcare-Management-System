@@ -54,8 +54,8 @@
                     <p class="font-weight-bold float-right p-0 m-0">{{ object.pulse }}</p>
                 </div>
 
-                {# Shows None if none are entered #}
-                {% if object.prescription|length > 0 %}
+                 Shows None if none are entered
+                {% if object %}
                     <div class="float-right list-group-item">
                         <p class="font-weight-bold p-0 m-0">Prescriptions:</p>
                         <p class="font-weight-bold p-0 m-0">{{ object.prescription }}</p>

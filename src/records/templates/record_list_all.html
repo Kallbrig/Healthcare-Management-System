@@ -21,10 +21,10 @@
                         </tr>
                             {% for object in object_list %}
 
-                        <tr onclick="document.location = '{% url "view-record" pk=object.pk %}';" >
+                        <tr onclick="document.location = '{% url "view-record" pk=user.pk  %}';" >
                             <th scope="row" >  {{object.pk}} </th>
                             <td>{{ object.patient.get_full_name }}</td>
-                            <td>{{ patient.patientAddress }}</td>
+                            <td>{{ object.Pat.profile.patientAddress }}</td>
                             <td>{{ object.patientPhone }}</td>
                             <td>{{ object.patient.email }}</td>
                             <td>{{ object.patientSSN }}</td>

@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 from django.contrib import messages
 from django.views.generic import ListView, DetailView, UpdateView, FormView
 from django.contrib.auth.models import User, Group
-from accounts.models import Doctor, Nurse
+from accounts.models import Doctor, Nurse, Patient
 from django.contrib.auth.decorators import user_passes_test, login_required
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin, AccessMixin
 
@@ -22,34 +22,30 @@ def user_belongs_to_patient_group(user):
         return False
 
 
-
-
 # secured
 @login_required
 def portal(request):
     groups = []
     if request.user in Group.objects.get(name='CEO').user_set.all():
         groups.append('ceo')
-
+        patient = False
     if request.user in Group.objects.get(name='Nurse').user_set.all():
         groups.append('nurse')
-
+        patient = False
     if request.user in Group.objects.get(name='Doctor').user_set.all():
         groups.append('doctor')
-
-    if request.user in Group.objects.get(name='Patient').user_set.all():
-        groups.append('patient')
+        patient = False
 
     if request.user in Group.objects.get(name='Staff').user_set.all():
         groups.append('staff')
+        patient = False
 
-    return render(request, 'portal.html', {'title': 'Portal', 'groups': groups})
+    if Patient.objects.get(patient=request.user):
+        groups.append('patient')
+        return render(request, 'portal.html', {'title': 'Portal', 'groups': groups, })
 
-#
-# @user_passes_test(user_belongs_to_patient_group,login_url=reverse_lazy('portal'))
-# def profile(request):
-#
-#     return render(request, 'profile.html', {'title': 'Profile'})
+    else:
+        return render(request, 'portal.html', {'title': 'Portal', 'groups': groups, })
 
 
 # secured
@@ -66,11 +62,7 @@ class doctor_salary(UserPassesTestMixin, ListView):
     permission_denied_message = 'You do not have the proper permissions to access this page.'
 
 
-
-
-
-
-
+# secured
 class nurse_salary(UserPassesTestMixin, ListView):
     model = Nurse
     template_name = 'nurse_salary.html'
@@ -83,8 +75,7 @@ class nurse_salary(UserPassesTestMixin, ListView):
             return False
 
 
-
-
+# secured
 class edit_nurse_salary(UserPassesTestMixin, UpdateView):
     model = Nurse
     fields = ['salary']
@@ -97,8 +88,6 @@ class edit_nurse_salary(UserPassesTestMixin, UpdateView):
             return True
         else:
             return False
-
-
 
 
 class edit_doctor_salary(UserPassesTestMixin, UpdateView):
@@ -114,5 +103,3 @@ class edit_doctor_salary(UserPassesTestMixin, UpdateView):
             return True
         else:
             return False
-
-
