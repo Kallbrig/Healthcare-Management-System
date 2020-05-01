@@ -1,0 +1,94 @@
+{#{% extends "base.html" %}#}
+{#{% load crispy_forms_filters %}#}
+{#{% load crispy_forms_tags %}#}
+{#{% block content %}#}
+{##}
+{#    <div class="card card-light shadow-sm p-4" style="max-height: 50rem;">#}
+{##}
+{#        <div class="media">#}
+{##}
+{#            <div class="media-body">#}
+{#                <h2 class="mt-0">Patient Profile</h2>#}
+{#                <p>{{ patient.patientAddress }}</p>#}
+{#            </div>#}
+{#        </div>#}
+{##}
+{#        <form method="POST" enctype="multipart/form-data">#}
+{#            {% csrf_token %}#}
+{#            <fieldset class="form-group">#}
+{#                <legend class=" card-light mb-4">Update Profile</legend>#}
+{#                {{ u_form|crispy }}#}
+{#                {{ p_form|crispy }}#}
+{#            </fieldset>#}
+{#            <div class="form-group">#}
+{#                <button class=" btn btn-secondary float-right" type="submit">Update</button>#}
+{#            </div>#}
+{#        </form>#}
+{##}
+{#    </div>#}
+{##}
+{#{% endblock content %}#}
+
+
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+{#    <a href="new_record" class="btn btn-dark" style="margin-bottom: 25px"> + New Record</a>#}
+
+
+     <div class="card card-light shadow-sm p-2 mb-5" >
+
+
+        <div class="card-header">
+            <div class="row ml-1">
+                <h1>Patient Profile - {{ object.patient.get_full_name }} </h1>
+            </div>
+
+             <a href="{% url "edit-profile" pk=object.id %}" class="btn btn-dark" style="margin-bottom: 25px"> Edit </a>
+        </div>
+
+        <div class="card-body m-0">
+            <ul class="list-group">
+
+                <div class="float-right list-group-item">
+                    <p class="font-weight-bold float-left p-0 m-0">Name</p>
+                    <p class="font-weight-bold float-right p-0 m-0">{{ object.patient.get_full_name }}</p>
+                </div>
+
+                <div class="float-right list-group-item">
+                    <p class="font-weight-bold float-left p-0 m-0">Address</p>
+                    <p class="font-weight-bold float-right p-0 m-0">{{ object.patientAddress }}</p>
+                </div>
+
+                <div class="float-right list-group-item">
+                    <p class="font-weight-bold float-left p-0 m-0">Phone number</p>
+                    <p class="font-weight-bold float-right p-0 m-0">{{ object.patientPhone }}</p>
+                </div>
+
+                <div class="float-right list-group-item">
+                    <p class="font-weight-bold float-left p-0 m-0">Email</p>
+                    <p class="font-weight-bold float-right p-0 m-0">{{ object.patient.email }}</p>
+                </div>
+
+                <div class="float-right list-group-item">
+                    <p class="font-weight-bold float-left p-0 m-0">SSN</p>
+                    <p class="font-weight-bold float-right p-0 m-0">{{ object.patientSSN }}</p>
+                </div>
+
+                <div class="float-right list-group-item">
+                    <p class="font-weight-bold float-left p-0 m-0">Insurance</p>
+                    <p class="font-weight-bold float-right p-0 m-0">{{ object.patientInsurance }}</p>
+                </div>
+
+            </ul>
+
+
+        </div>
+    </div>
+
+
+
+
+
+{% endblock content %}

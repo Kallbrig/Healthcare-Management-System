@@ -2,10 +2,9 @@
 {% load crispy_forms_tags %}
 {% block content %}
 
-    <a href="new_record" class="btn btn-dark" style="margin-bottom: 25px"> + New Record</a>
+    <a href="new_record" class="btn btn-dark m-5" style="margin-bottom: 25px"> + New Record</a>
 
-    {% for object in object_list %}
-        {% if object %}
+
      <div class="card card-light shadow-sm p-2" >
 
 
@@ -79,10 +78,6 @@
         </div>
     </div>
 
-
-
-        {% endif %}
-    {% endfor %}
 
 
 {% endblock content %}

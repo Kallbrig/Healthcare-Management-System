@@ -23,28 +23,28 @@ class RecordUserList(UserPassesTestMixin, ListView):
             return False
 
 
-class Records(UserPassesTestMixin, ListView):
+class Records(UserPassesTestMixin, DetailView):
     template_name = 'record.html'
     model = Record
 
     def test_func(self):
         if self.request.user in Group.objects.get(
                 name='Staff').user_set.all() or self.request.user in Group.objects.get(
-            name='Nurse').user_set.all() or self.request.user in Group.objects.get(
-            name='CEO').user_set.all() or self.request.user in Group.objects.get(name='Doctor').user_set.all():
+                name='Nurse').user_set.all() or self.request.user in Group.objects.get(
+                name='CEO').user_set.all() or self.request.user in Group.objects.get(name='Doctor').user_set.all():
+            return True
 
+        elif self.request.user in Group.objects.get(name='Patient').user_set.all() and Record.patient.pk == self.request.user.pk:
             return True
         else:
             return False
 
     def get_queryset(self):
-        id = self.kwargs["pk"]
-        records = Record.objects.all()
-        record_list = records.filter(patient_id=id)
-        return record_list
+        if self.request.user in Group.objects.get(name='Patient').user_set.all():
+            return
 
 
-class new_record(UserPassesTestMixin,CreateView):
+class new_record(UserPassesTestMixin, CreateView):
     model = Record
     template_name = 'new_record.html'
     form_class = NewRecordForm
@@ -74,7 +74,9 @@ class edit_record(UpdateView):
     form_class = NewRecordForm
 
     def test_func(self):
-        if self.request.user in Group.objects.get(name='Nurse').user_set.all() or self.request.user in Group.objects.get(name='Doctor').user_set.all() or self.request.user in Group.objects.get(name='Staff').user_set.all():
+        if self.request.user in Group.objects.get(
+                name='Nurse').user_set.all() or self.request.user in Group.objects.get(
+                name='Doctor').user_set.all() or self.request.user in Group.objects.get(name='Staff').user_set.all():
             return True
         else:
             return False

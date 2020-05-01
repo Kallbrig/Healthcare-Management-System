@@ -45,11 +45,11 @@ def portal(request):
 
     return render(request, 'portal.html', {'title': 'Portal', 'groups': groups})
 
-
-@user_passes_test(user_belongs_to_patient_group,login_url=reverse_lazy('portal'))
-def profile(request):
-
-    return render(request, 'profile.html', {'title': 'Profile'})
+#
+# @user_passes_test(user_belongs_to_patient_group,login_url=reverse_lazy('portal'))
+# def profile(request):
+#
+#     return render(request, 'profile.html', {'title': 'Profile'})
 
 
 # secured
