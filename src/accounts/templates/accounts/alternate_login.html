@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="card card-light shadow-sm p-4">
+    <form method="POST">{% csrf_token %}
+        <fieldset class="form-group">
+            <legend class=" card-light mb-4">Log In</legend>
+            {{ form|crispy }}
+        </fieldset>
+        <div class="form-group">
+            <button class=" btn btn-secondary float-right" type="submit">Log In</button>
+            <small class="text-muted m-2">
+{#                <a href="{% url 'password_reset' %}">Forgot Password?</a>#}
+            </small>
+        </div>
+    </form>
+    <div class="border-top pt-5">
+        <small class="text-muted">Do You Need An Account?
+            <a class="ml-2" href="{% url 'register' %}">Register</a>
+        </small>
+    </div>
+</div>
+<div class="card card-light shadow-sm p-4">
+    <h4 style="text-align: center;">If you have received an invoice and would like to pay your bill now, click <a href="#">here</a>.</h4>
+</div>
+{% endblock content %}

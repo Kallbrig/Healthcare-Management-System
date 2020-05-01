@@ -1,3 +1,5 @@
+
+
 {% extends "base.html" %}
 
 {% block content %}
@@ -5,26 +7,34 @@
 
 
     <div class="card p-4 float">
-        <div class="card-header mb-3"><h3>Payments - {{ user.username }}</h3></div>
-        {% for payment in object_list %}
+        <div class="card-header mb-3"><h3>Payments on {{ user.get_full_name }}'s Account</h3></div>
 
 
 
-            <div id="acordian">
                 <div class="card">
 
-                    <button id="" class="card-header btn">
 
-                        <p class="float-left">{{ payment.invoice_number }} - {{ payment.date_billed }}</p>
-                        <span class="badge badge-primary badge-pill float-right">${{ payment.amount_owed }}</span>
+                    <div class="list-group">
+                        <div  class="list-group-item list-group-item-action active disabled">
+                            <p class="float-left">Invoice Number</p>
+                            <p class="float-right">Payment Amount</p>
 
-                    </button>
+                        </div>
+                    {% for payment in object_list %}
+                        <a href="{% url 'invoice-detail-view' pk=payment.invoice.pk %}" class="list-group-item list-group-item-action">
+                        <p class="float-left">{{ payment.invoice.pk}}</p>
+
+                        <p class="float-right">${{ payment.payment_amount }}</p>
+                        </a>
+                    {% endfor %}
+
+                    </div>
 
 
                 </div>
-            </div>
 
-        {% endfor %}
+
+
     </div>
 
 {% endblock content %}

@@ -1,5 +1,5 @@
-from django.shortcuts import render, redirect
-from django.views.generic import ListView, DetailView
+from django.shortcuts import render, redirect, reverse
+from django.views.generic import ListView, DetailView, CreateView
 from . import models as payment_models
 from . import forms as payment_forms
 from django.contrib import messages
@@ -7,6 +7,9 @@ from django.contrib.auth.decorators import user_passes_test, login_required
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin, AccessMixin
 from .models import Payment, Invoice
 from django.contrib.auth.models import User, Group
+from django.urls import reverse_lazy
+from .forms import PaymentForm
+
 
 # test function
 def user_belongs_to_staff_group(user):
@@ -15,18 +18,23 @@ def user_belongs_to_staff_group(user):
     else:
         return False
 
+
 # secured
 class PaymentList(UserPassesTestMixin, ListView):
     model = Payment
-    paginate_by = 15
-    ordering = ['payment_amount']
+
+    ordering = ['-Payment.invoice.pk']
     template_name = 'payment_list.html'
 
     def test_func(self):
-        if self.request.user in Group.objects.get(name='patinet').user_set.all():
+        if self.request.user in Group.objects.get(name='Patient').user_set.all():
             return True
         else:
             return False
+
+    def get_queryset(self):
+        return Payment.objects.filter(invoice__patient__pk=self.request.user.pk).all()
+
 
 # secured
 class MakePayment(UserPassesTestMixin, DetailView):
@@ -34,28 +42,44 @@ class MakePayment(UserPassesTestMixin, DetailView):
     template_name = 'make_payment.html'
 
     def test_func(self):
-        if self.request.user in Group.objects.get(name='patient').user_set.all():
+        if self.request.user in Group.objects.get(name='Patient').user_set.all():
             return True
         else:
             return False
+
 
 # secured
-class InvoiceList(UserPassesTestMixin, ListView):
-    model = Invoice
-    paginate_by = 15
-    ordering = ['date_billed']
-    template_name = 'invoice_list.html'
+class InvoiceListAll(UserPassesTestMixin, ListView):
 
     def test_func(self):
-        if self.request.user in Group.objects.get(name='CEO').user_set.all():
+        if self.request.user in Group.objects.get(name='CEO').user_set.all() or self.request.user in Group.objects.get(
+                name='Staff').user_set.all():
             return True
         else:
             return False
+
+    model = Invoice
+    ordering = ['date_billed']
+    template_name = 'invoice_list_all.html'
+
+
+class InvoiceListUser(UserPassesTestMixin, ListView):
+
+    def test_func(self):
+        if self.request.user in Group.objects.get(name='Patient').user_set.all():
+            return True
+        else:
+            return False
+
+    model = Invoice
+    ordering = ['date_billed']
+    template_name = 'invoice_list_user.html'
+
 
 # secured
 @login_required()
 @user_passes_test(user_belongs_to_staff_group)
-def makeCashPayment(request, ):
+def MakeCashPayment(request, ):
     if request.method == 'POST':
         form = payment_forms.PaymentForm(request.POST)
         if form.is_valid():
@@ -79,16 +103,68 @@ def makeCashPayment(request, ):
                     updated_invoice.amount_owed = new_amount_owed
 
                     # creating new cash payment
-                    Payment(invoice=updated_invoice, payment_amount=form.get('payment_amount'),
-                            payment_method='Cash').save()
+                    Payment(invoice=updated_invoice, payment_amount=form.get('payment_amount'),).save()
                     updated_invoice.save()
+                    messages.add_message(request, messages.SUCCESS, 'Payment Successful. Amount Owed Updated.')
             except:
 
                 messages.add_message(request, messages.WARNING, 'Something Went Wrong. Try Again')
 
-            return redirect('invoice-list')
+            return redirect('invoice-list-all')
     else:
         form = payment_forms.PaymentForm()
 
     context = {'form': form}
     return render(request, 'cash_payment.html', context=context)
+
+
+
+
+
+## Unsuccessful attempt to turn cash payments into a Class Based View
+# class MakeCashPayment(UserPassesTestMixin, CreateView):
+#     model = Payment
+#     template_name = 'cash_payment.html'
+#     success_message = "Payment was created successfully"
+#     # form_class = PaymentForm
+#     fields = [
+#         'invoice',
+#         'payment_amount'
+#     ]
+#
+#     def post(self, request, *args, **kwargs):
+#         try:
+#             form = PaymentForm(request.POST)
+#             if form.is_valid():
+#                 new_invoice = Invoice.objects.get(invoice=form.invoice_number)
+#                 original_amount_owed = new_invoice.amount_owed
+#                 if original_amount_owed >= form.payment_amount:
+#                     new_invoice.amount_owed = original_amount_owed - form.payment_amount
+#                     new_invoice.save()
+#                     Payment(payment_amount=form.payment_amount, invoice=new_invoice)
+#
+#         except:
+#             messages.add_message(request, level=messages.WARNING, message='Something went wrong. Please Try Again.')
+#             return reverse_lazy('cash-payment-staff')
+#
+#         return reverse_lazy('portal')
+#
+#     # def post(self, request, *args, **kwargs):
+#     #     form = BookCreateForm(request.POST)
+#     #     if form.is_valid():
+#     #         book = form.save()
+#     #         book.save()
+#     #         return HttpResponseRedirect(reverse_lazy('books:detail', args=[book.id]))
+#     #     return render(request, 'books/book-create.html', {'form': form})
+#
+#     def test_func(self):
+#         return user_belongs_to_staff_group(self.request.user)
+
+
+class InvoiceDetailView(DetailView):
+    model = Invoice
+    template_name = 'view_invoice.html'
+    extra_context = {}
+
+
+

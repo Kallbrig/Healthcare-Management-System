@@ -36,8 +36,8 @@ INSTALLED_APPS = [
     'payments.apps.PaymentsConfig',
     'reports.apps.ReportsConfig',
 
-
     'crispy_forms',
+
 
     'django.contrib.admin',
     'django.contrib.auth',

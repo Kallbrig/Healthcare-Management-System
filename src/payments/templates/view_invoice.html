@@ -25,7 +25,7 @@
 
                 <div class="float-right list-group-item">
                     <p class="font-weight-bold float-left p-0 m-0">Invoice Number</p>
-                    <p class="font-weight-bold float-right p-0 m-0">{{ object.invoice_number }}</p>
+                    <p class="font-weight-bold float-right p-0 m-0">{{ object.pk }}</p>
                 </div>
 
                 <div class="float-right list-group-item">
@@ -39,8 +39,14 @@
                 </div>
 
                 <div class="float-right list-group-item">
+                   {% if  "Staff" in user.groups.all.0.name or "Staff" in user.groups.all.1.name or "Staff" in user.groups.all.2.name or "Staff" in user.groups.all.3.name or "Staff" in user.groups.all.4.name or "Staff" in user.groups.all.5.name %}
+                        <a href="{% url 'cash-payment-staff' %}"><button class="btn btn-primary float-right">Take Cash Payment</button></a>
+                {% endif %}
+                    {% if 'Patient' in user.groups.all.0.name or 'Patient' in user.groups.all.1.name or 'Patient' in user.groups.all.2.name or 'Patient' in user.groups.all.3.name or 'Patient' in user.groups.all.4.name or 'Patient' in user.groups.all.5.name  %}
+                        <a href="{% url 'make-payment' pk=object.pk %}"><button class="btn btn-primary float-right">Pay</button></a>
+                    {% endif %}
 
-                    <a href="{% url 'make-payment' pk=object.pk %}"><button class="btn btn-primary float-right">Pay</button></a>
+
                 </div>
 
 

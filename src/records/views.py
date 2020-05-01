@@ -44,7 +44,7 @@ class Records(UserPassesTestMixin, ListView):
         return record_list
 
 
-class new_record(CreateView):
+class new_record(UserPassesTestMixin,CreateView):
     model = Record
     template_name = 'new_record.html'
     form_class = NewRecordForm

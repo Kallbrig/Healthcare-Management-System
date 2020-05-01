@@ -8,27 +8,12 @@
 
     <div class="card card-primary">
         <div class="card-header">
-            <h2>Make a Payment</h2>
-        </div>
-        <div class="float-right list-group-item">
-            <p class="font-weight-bold float-left p-0 m-0">Invoice Number</p>
-            <p class="font-weight-bold float-right p-0 m-0">{{ object.pk }}</p>
+            <h2>Cash Payment</h2>
         </div>
 
-        <div class="float-right list-group-item">
-            <p class="font-weight-bold float-left p-0 m-0">Amount Billed</p>
-            <p class="font-weight-bold float-right p-0 m-0">${{ object.amount_billed }}</p>
-        </div>
 
-        <div class="float-right list-group-item">
-            <p class="font-weight-bold float-left p-0 m-0">Amount Owed</p>
-            <p class="font-weight-bold float-right p-0 m-0">${{ object.amount_owed }}</p>
-        </div>
 
-        <div class="float-right list-group-item">
-            <p class="font-weight-bold float-left p-0 m-0">Payment Amount</p>
-
-            <form class="float-right" method="POST">{% csrf_token %}
+            <form class="float-right m-4" method="POST">{% csrf_token %}
         <fieldset class="form-group">
             <legend class=""></legend>
             {{ form|crispy }}

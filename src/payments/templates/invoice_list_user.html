@@ -19,7 +19,7 @@
 
                         </div>
                     {% for invoice in user.invoice_set.all %}
-                        <a href="{% url 'make-payment' pk=invoice.pk %}" class="list-group-item list-group-item-action
+                        <a href="{% url 'invoice-detail-view' pk=invoice.pk %}" class="list-group-item list-group-item-action
                                     {% if invoice.amount_owed <= 0 %} disabled {% endif %}">
                         <p class="float-left">{{ invoice.pk}}</p>
                         <p class="float-right">${{ invoice.amount_owed }}</p>
